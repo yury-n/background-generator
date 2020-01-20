@@ -1,7 +1,65 @@
+:global {
+  .full-width-input {
+    width: 100%;
+  }
+}
+
 .logo {
-  width: 120px;
-  height: 31px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px 28px 16px 0;
-  float: left;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 31px;
+  padding-top: 20px;
+}
+
+.logo a {
+  color: black;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.logo-icon {
+  margin-right: 10px;
+}
+
+.form {
+  padding: 24px;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px); // @layout-header-height
+}
+
+.header-row {
+  height: 100%;
+}
+
+.dimensions-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.dimensions-input {
+  width: 70px;
+  text-align: center;
+}
+
+.dimensions-x {
+  margin: 0 8px;
+  font-size: 17px;
+}
+
+.download-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  padding-right: 14px;
 }

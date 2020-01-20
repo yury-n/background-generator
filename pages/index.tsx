@@ -1,95 +1,108 @@
-import { Layout, Menu, Breadcrumb, Icon } from "antd";
-import "antd/dist/antd.css";
+import {
+  Icon,
+  Form,
+  Layout,
+  Button,
+  Select,
+  Slider,
+  InputNumber,
+  Row,
+  Col,
+  Input
+} from "antd";
+import Head from "next/head";
+const { Option } = Select;
 
+import "antd/dist/antd.css";
 import s from "./index.less";
 
-const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 export default () => (
-  <Layout>
-    <Header className="header">
-      <div className={s["logo"]} />
-      <Menu
-        theme="dark"
-        mode="horizontal"
-        defaultSelectedKeys={["2"]}
-        style={{ lineHeight: "64px" }}
-      >
-        <Menu.Item key="1">nav 1</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
-      </Menu>
-    </Header>
+  <>
+    <Head>
+      <title>Background Generator</title>
+      <link rel="icon" type="image/png" href="/favicon.png"></link>
+    </Head>
     <Layout>
-      <Sider width={200} style={{ background: "#fff" }}>
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
-          style={{ height: "100%", borderRight: 0 }}
-        >
-          <SubMenu
-            key="sub1"
-            title={
-              <span>
-                <Icon type="user" />
-                subnav 1
-              </span>
-            }
+      <Layout>
+        <Sider width={330} style={{ background: "#fff" }}>
+          <h1 className={s["logo"]}>
+            <Icon type="border-outer" className={s["logo-icon"]} />
+            <a href="/">Background Generator</a>
+          </h1>
+          <Form layout="vertical" className={s["form"]}>
+            <Form.Item label="Layout">
+              <Select defaultValue="lucy" style={{ width: 120 }}>
+                <Option value="jack">Jack</Option>
+                <Option value="lucy">Lucy</Option>
+                <Option value="disabled" disabled>
+                  Disabled
+                </Option>
+                <Option value="Yiminghe">yiminghe</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item label="Item Size">
+              <Row>
+                <Col span={6}>
+                  <InputNumber
+                    min={1}
+                    max={20}
+                    value={0}
+                    className={"full-width-input"}
+                  />
+                </Col>
+                <Col span={16} offset={1}>
+                  <Slider min={1} max={20} value={10} />
+                </Col>
+              </Row>
+            </Form.Item>
+            <Form.Item label="Item Count">
+              <Row>
+                <Col span={6}>
+                  <InputNumber
+                    min={1}
+                    max={20}
+                    value={0}
+                    className={"full-width-input"}
+                  />
+                </Col>
+                <Col span={16} offset={1}>
+                  <Slider min={1} max={20} value={10} />
+                </Col>
+              </Row>
+            </Form.Item>
+          </Form>
+        </Sider>
+        <Layout>
+          <Header
+            style={{ background: "rgba(255, 255, 255, 0.51)", padding: 0 }}
           >
-            <Menu.Item key="1">option1</Menu.Item>
-            <Menu.Item key="2">option2</Menu.Item>
-            <Menu.Item key="3">option3</Menu.Item>
-            <Menu.Item key="4">option4</Menu.Item>
-          </SubMenu>
-          <SubMenu
-            key="sub2"
-            title={
-              <span>
-                <Icon type="laptop" />
-                subnav 2
-              </span>
-            }
-          >
-            <Menu.Item key="5">option5</Menu.Item>
-            <Menu.Item key="6">option6</Menu.Item>
-            <Menu.Item key="7">option7</Menu.Item>
-            <Menu.Item key="8">option8</Menu.Item>
-          </SubMenu>
-          <SubMenu
-            key="sub3"
-            title={
-              <span>
-                <Icon type="notification" />
-                subnav 3
-              </span>
-            }
-          >
-            <Menu.Item key="9">option9</Menu.Item>
-            <Menu.Item key="10">option10</Menu.Item>
-            <Menu.Item key="11">option11</Menu.Item>
-            <Menu.Item key="12">option12</Menu.Item>
-          </SubMenu>
-        </Menu>
-      </Sider>
-      <Layout style={{ padding: "0 24px 24px" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <Content
-          style={{
-            background: "#fff",
-            padding: 24,
-            margin: 0,
-            minHeight: 280
-          }}
-        >
-          Content
-        </Content>
+            <Row className={s["header-row"]}>
+              <Col span={8}></Col>
+              <Col span={8} className={s["dimensions-area"]}>
+                <Input className={s["dimensions-input"]} value={1024} />
+                <span className={s["dimensions-x"]}>×</span>
+                <Input className={s["dimensions-input"]} value={768} />
+              </Col>
+              <Col span={8} className={s["download-area"]}>
+                <Button type="primary" icon="download" size="large">
+                  Download
+                </Button>
+              </Col>
+            </Row>
+          </Header>
+          <Content className={s["content"]}>
+            <div
+              style={{
+                width: 1024,
+                height: 768,
+                background: "linear-gradient(to right, #d1913c, #ffd194)"
+              }}
+            />
+          </Content>
+        </Layout>
       </Layout>
     </Layout>
-  </Layout>
+  </>
 );
