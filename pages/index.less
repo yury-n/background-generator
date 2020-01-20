@@ -9,6 +9,9 @@
   font-weight: bold;
   padding: 31px;
   padding-top: 20px;
+  padding-bottom: 14px;
+  background: white;
+  margin-bottom: 0;
 }
 
 .logo a {
@@ -20,6 +23,10 @@
 
 .logo-icon {
   margin-right: 10px;
+}
+
+.sider {
+  background: hsla(180, 0%, 99%, 1);
 }
 
 .form {
@@ -45,14 +52,41 @@
   height: 100%;
 }
 
+.dimensions-form-wrapper {
+  display: inline-block;
+  position: relative;
+  padding-right: 30px;
+}
+
+.dimensions-dropdown {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
 .dimensions-input {
   width: 70px;
   text-align: center;
 }
 
+.dimensions-dropdown > button {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.dimensions-dropdown > button:first-child {
+  pointer-events: none;
+  display: none;
+}
+
 .dimensions-x {
   margin: 0 8px;
   font-size: 17px;
+}
+
+.refresh-area {
+  padding-left: 16px;
 }
 
 .download-area {
@@ -61,5 +95,5 @@
   justify-content: flex-end;
   align-items: center;
   height: 100%;
-  padding-right: 14px;
+  padding-right: 16px;
 }

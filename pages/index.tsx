@@ -13,16 +13,23 @@ import {
   Dropdown
 } from "antd";
 import Head from "next/head";
+import { Stage, Layer, Rect, Star } from "react-konva";
+const { Header, Content, Sider } = Layout;
 const { Option } = Select;
 
 import "antd/dist/antd.css";
 import s from "./index.less";
 
-const { Header, Content, Sider } = Layout;
-
 const downloadMenu = (
   <Menu>
     <Menu.Item key="1">Download as SVG</Menu.Item>
+  </Menu>
+);
+
+const dimensionsMenu = (
+  <Menu>
+    <Menu.Item key="1">1024 × 768</Menu.Item>
+    <Menu.Item key="2">800 × 600</Menu.Item>
   </Menu>
 );
 
@@ -34,7 +41,7 @@ export default () => (
     </Head>
     <Layout>
       <Layout>
-        <Sider width={330} style={{ background: "#fff" }}>
+        <Sider className={s["sider"]} width={330}>
           <h1 className={s["logo"]}>
             <Icon type="border-outer" className={s["logo-icon"]} />
             <a href="/">Background Generator</a>
@@ -87,11 +94,25 @@ export default () => (
             style={{ background: "rgba(255, 255, 255, 0.3)", padding: 0 }}
           >
             <Row className={s["header-row"]}>
-              <Col span={8}></Col>
+              <Col span={8} className={s["refresh-area"]}>
+                <Button type="primary" ghost icon="reload">
+                  Reload
+                </Button>
+              </Col>
               <Col span={8} className={s["dimensions-area"]}>
-                <Input className={s["dimensions-input"]} value={1024} />
-                <span className={s["dimensions-x"]}>×</span>
-                <Input className={s["dimensions-input"]} value={768} />
+                <div className={s["dimensions-form-wrapper"]}>
+                  <Input className={s["dimensions-input"]} value={1024} />
+                  <span className={s["dimensions-x"]}>×</span>
+                  <Input className={s["dimensions-input"]} value={768} />
+                  <Dropdown.Button
+                    className={s["dimensions-dropdown"]}
+                    size="large"
+                    icon={<Icon type="down" />}
+                    overlay={dimensionsMenu}
+                  >
+                    Dimensions
+                  </Dropdown.Button>
+                </div>
               </Col>
               <Col span={8} className={s["download-area"]}>
                 <Dropdown.Button
@@ -107,13 +128,28 @@ export default () => (
             </Row>
           </Header>
           <Content className={s["content"]}>
-            <div
-              style={{
-                width: 1024,
-                height: 768,
-                background: "linear-gradient(to right, #d1913c, #ffd194)"
-              }}
-            />
+            <Stage width={800} height={600}>
+              <Layer>
+                <Rect fill="#fff" x={0} y={0} width={800} height={600} />
+                {[...Array(10)].map((_, i) => (
+                  <Star
+                    key={i}
+                    x={Math.random() * 800}
+                    y={Math.random() * 600}
+                    numPoints={5}
+                    innerRadius={20}
+                    outerRadius={40}
+                    fill="#89b717"
+                    opacity={0.8}
+                    draggable
+                    rotation={Math.random() * 180}
+                    shadowColor="black"
+                    shadowBlur={10}
+                    shadowOpacity={0.6}
+                  />
+                ))}
+              </Layer>
+            </Stage>
           </Content>
         </Layout>
       </Layout>
