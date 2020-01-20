@@ -8,7 +8,9 @@ import {
   InputNumber,
   Row,
   Col,
-  Input
+  Input,
+  Menu,
+  Dropdown
 } from "antd";
 import Head from "next/head";
 const { Option } = Select;
@@ -17,6 +19,12 @@ import "antd/dist/antd.css";
 import s from "./index.less";
 
 const { Header, Content, Sider } = Layout;
+
+const downloadMenu = (
+  <Menu>
+    <Menu.Item key="1">Download as SVG</Menu.Item>
+  </Menu>
+);
 
 export default () => (
   <>
@@ -76,7 +84,7 @@ export default () => (
         </Sider>
         <Layout>
           <Header
-            style={{ background: "rgba(255, 255, 255, 0.51)", padding: 0 }}
+            style={{ background: "rgba(255, 255, 255, 0.3)", padding: 0 }}
           >
             <Row className={s["header-row"]}>
               <Col span={8}></Col>
@@ -86,9 +94,15 @@ export default () => (
                 <Input className={s["dimensions-input"]} value={768} />
               </Col>
               <Col span={8} className={s["download-area"]}>
-                <Button type="primary" icon="download" size="large">
+                <Dropdown.Button
+                  type="primary"
+                  size="large"
+                  icon={<Icon type="down" />}
+                  overlay={downloadMenu}
+                >
+                  <Icon type="download" />
                   Download
-                </Button>
+                </Dropdown.Button>
               </Col>
             </Row>
           </Header>
