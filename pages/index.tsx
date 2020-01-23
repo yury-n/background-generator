@@ -15,6 +15,7 @@ import {
 import Head from "next/head";
 import { Stage, Layer, Rect, Circle } from "react-konva";
 const { Header, Content, Sider } = Layout;
+import ColorInput from "../components/ColorInput";
 
 import "antd/dist/antd.css";
 import s from "./index.less";
@@ -132,6 +133,12 @@ export default () => {
                     <Slider min={1} max={20} value={10} />
                   </Col>
                 </Row>
+              </Form.Item>
+              <Form.Item label="Colors">
+                <div style={{ display: "flex" }}>
+                  <ColorInput color="#000" />
+                  <ColorInput color="#fff" />
+                </div>
               </Form.Item>
             </Form>
           </Sider>
