@@ -19,6 +19,7 @@ import ColorInput from "../components/ColorInput";
 
 import "antd/dist/antd.css";
 import s from "./index.less";
+import BorderFrame from "../components/BorderFrame";
 
 const downloadMenu = (
   <Menu>
@@ -78,15 +79,31 @@ export default () => {
             <Form layout="vertical" className={s["form"]}>
               <Form.Item label="Layouts">
                 <div className={s["layouts"]}>
-                  <div className={classnames(s["layout-thumb"], s["active"])}>
+                  <BorderFrame
+                    isActive
+                    className={classnames(s["layout-thumb"])}
+                  >
                     <img src="/layout_thumbs/1.png" alt="image.png" />
-                  </div>
-                  <div className={s["layout-thumb"]}>
+                  </BorderFrame>
+                  <BorderFrame className={classnames(s["layout-thumb"])}>
                     <img src="/layout_thumbs/1.png" alt="image.png" />
-                  </div>
-                  <div className={s["layout-thumb"]}>
+                  </BorderFrame>
+                  <BorderFrame className={classnames(s["layout-thumb"])}>
                     <img src="/layout_thumbs/1.png" alt="image.png" />
-                  </div>
+                  </BorderFrame>
+                </div>
+              </Form.Item>
+              <Form.Item label="Item">
+                <div className={s["layouts"]}>
+                  <BorderFrame isActive className={classnames(s["item-thumb"])}>
+                    <img src="/item_thumb/1.svg" alt="image.png" />
+                  </BorderFrame>
+                  <BorderFrame className={classnames(s["item-thumb"])}>
+                    <img src="/item_thumb/2.svg" alt="image.png" />
+                  </BorderFrame>
+                  <BorderFrame className={classnames(s["item-thumb"])}>
+                    <img src="/item_thumb/3.svg" alt="image.png" />
+                  </BorderFrame>
                 </div>
               </Form.Item>
               <Form.Item label="Item Size">
