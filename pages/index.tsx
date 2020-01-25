@@ -10,7 +10,8 @@ import {
   Col,
   Input,
   Menu,
-  Dropdown
+  Dropdown,
+  Divider
 } from "antd";
 import Head from "next/head";
 import { Stage, Layer, Rect, Circle } from "react-konva";
@@ -77,7 +78,7 @@ export default () => {
               <a href="/">Background Generator</a>
             </h1>
             <Form layout="vertical" className={s["form"]}>
-              <Form.Item label="Layouts">
+              <Form.Item label="Layouts" style={{ marginBottom: 0 }}>
                 <div className={s["layouts"]}>
                   <BorderFrame
                     isActive
@@ -91,19 +92,38 @@ export default () => {
                   <BorderFrame className={classnames(s["layout-thumb"])}>
                     <img src="/layout_thumbs/1.png" alt="image.png" />
                   </BorderFrame>
+                  <Divider>
+                    <Button type="link" icon="down">
+                      Show more
+                    </Button>
+                  </Divider>
                 </div>
               </Form.Item>
-              <Form.Item label="Item">
+              <Form.Item label="Item" style={{ marginBottom: 0 }}>
                 <div className={s["layouts"]}>
-                  <BorderFrame isActive className={classnames(s["item-thumb"])}>
-                    <img src="/item_thumb/1.svg" alt="image.png" />
+                  <BorderFrame
+                    className={classnames(
+                      s["item-thumb"],
+                      s["upload-item-thumb"]
+                    )}
+                  >
+                    <Icon type="upload" />
+                    <span>Upload</span>
                   </BorderFrame>
                   <BorderFrame className={classnames(s["item-thumb"])}>
                     <img src="/item_thumb/2.svg" alt="image.png" />
                   </BorderFrame>
                   <BorderFrame className={classnames(s["item-thumb"])}>
+                    <img src="/item_thumb/1.svg" alt="image.png" />
+                  </BorderFrame>
+                  <BorderFrame isActive className={classnames(s["item-thumb"])}>
                     <img src="/item_thumb/3.svg" alt="image.png" />
                   </BorderFrame>
+                  <Divider>
+                    <Button type="link" icon="down">
+                      Show more
+                    </Button>
+                  </Divider>
                 </div>
               </Form.Item>
               <Form.Item label="Item Size">

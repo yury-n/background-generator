@@ -28,16 +28,20 @@
 .layouts {
   display: flex;
   flex-wrap: wrap;
+
+  max-height: 164px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .item-thumb,
 .layout-thumb {
-  width: 74px;
-  height: 74px;
+  width: 82px;
+  height: 82px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 16px 16px 0;
+  margin: 0 12px 12px 0;
 }
 
 .layout-thumb > img {
@@ -48,12 +52,39 @@
   width: 50%;
 }
 
+.item-thumb {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 12px 12px 0;
+}
+
+.upload-item-thumb {
+  background-color: #fafafa;
+  border: 1px dashed #999;
+  border-radius: 4px;
+  & > * + * {
+    margin-top: 2px;
+  }
+  span {
+    font-size: 12px;
+  }
+}
+
 .sider {
+  height: 100vh;
   background: hsla(180, 0%, 99%, 1);
 }
 
 .form {
   padding: 30px;
+  box-sizing: border-box;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .content {
