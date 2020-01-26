@@ -92,15 +92,15 @@ export default () => {
                   <BorderFrame className={classnames(s["layout-thumb"])}>
                     <img src="/layout_thumbs/1.png" alt="image.png" />
                   </BorderFrame>
-                  <Divider>
-                    <Button type="link" icon="down">
-                      Show more
-                    </Button>
-                  </Divider>
                 </div>
+                <Divider>
+                  <Button type="link" icon="down">
+                    Show more
+                  </Button>
+                </Divider>
               </Form.Item>
               <Form.Item label="Item" style={{ marginBottom: 0 }}>
-                <div className={s["layouts"]}>
+                <div className={s["layout-items"]}>
                   <BorderFrame
                     className={classnames(
                       s["item-thumb"],
@@ -119,12 +119,12 @@ export default () => {
                   <BorderFrame isActive className={classnames(s["item-thumb"])}>
                     <img src="/item_thumb/3.svg" alt="image.png" />
                   </BorderFrame>
-                  <Divider>
-                    <Button type="link" icon="down">
-                      Show more
-                    </Button>
-                  </Divider>
                 </div>
+                <Divider>
+                  <Button type="link" icon="down">
+                    Show more
+                  </Button>
+                </Divider>
               </Form.Item>
               <Form.Item label="Item Size">
                 <Row>
