@@ -171,12 +171,6 @@ export default () => {
                   </Col>
                 </Row>
               </Form.Item>
-              <Form.Item label="Colors">
-                <div style={{ display: "flex" }}>
-                  <ColorInput color="#000" />
-                  <ColorInput color="#fff" />
-                </div>
-              </Form.Item>
             </Form>
           </Sider>
           <Layout>
@@ -235,6 +229,10 @@ export default () => {
                   {dots}
                 </Layer>
               </Stage>
+              <div className={s["color-side-bar"]}>
+                <ColorInput color="#fff" />
+                <ColorInput color="#000" />
+              </div>
             </Content>
           </Layout>
         </Layout>

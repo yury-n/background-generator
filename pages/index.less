@@ -1,3 +1,5 @@
+@color-sider-bar-width: 57px;
+
 :global {
   .full-width-input {
     width: 100%;
@@ -85,10 +87,29 @@
 }
 
 .content {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 64px); // @layout-header-height
+  padding-right: @color-sider-bar-width;
+}
+
+.color-side-bar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  padding-top: 10px;
+  width: @color-sider-bar-width;
+  background: #fcfcfc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & > * {
+    margin-top: 14px;
+  }
 }
 
 .header-row {
