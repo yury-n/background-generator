@@ -2,6 +2,7 @@ import classnames from "classnames";
 import {
   Icon,
   Form,
+  Switch,
   Layout,
   Button,
   Slider,
@@ -10,17 +11,18 @@ import {
   Col,
   Input,
   Menu,
-  Dropdown,
-  Divider
+  Dropdown
+  // Divider
 } from "antd";
 import Head from "next/head";
 import { Stage, Layer, Rect, Circle } from "react-konva";
+import random from "lodash.random";
 const { Header, Content, Sider } = Layout;
 import ColorInput from "../components/ColorInput";
+import BorderFrame from "../components/BorderFrame";
 
 import "antd/dist/antd.css";
 import s from "./index.less";
-import BorderFrame from "../components/BorderFrame";
 
 const downloadMenu = (
   <Menu>
@@ -45,17 +47,18 @@ export default () => {
   const pointArea = totalArea / itemCount;
   const length = Math.sqrt(pointArea);
 
-  // $x = $i+((rand(0,$length)-$length/2)*$rand);
-  // $y = $j+((rand(0,$length)-$length/2)*$rand);
+  const randPower = 0;
 
   const dots = [];
   for (let i = length / 2; i < width; i += length) {
     for (let j = length / 2; j < height; j += length) {
+      const x = i + (random(0, length) - length / 2) * randPower;
+      const y = j + (random(0, length) - length / 2) * randPower;
       dots.push(
         <Circle
           key={`${i}-${j}`}
-          x={i}
-          y={j}
+          x={x}
+          y={y}
           radius={2}
           fill="#000"
           draggable
@@ -78,7 +81,7 @@ export default () => {
               <a href="/">Background Generator</a>
             </h1>
             <Form layout="vertical" className={s["form"]}>
-              <Form.Item label="Layouts" style={{ marginBottom: 0 }}>
+              <Form.Item label="Layouts">
                 <div className={s["layouts"]}>
                   <BorderFrame
                     isActive
@@ -86,20 +89,14 @@ export default () => {
                   >
                     <img src="/layout_thumbs/1.png" alt="image.png" />
                   </BorderFrame>
-                  <BorderFrame className={classnames(s["layout-thumb"])}>
-                    <img src="/layout_thumbs/1.png" alt="image.png" />
-                  </BorderFrame>
-                  <BorderFrame className={classnames(s["layout-thumb"])}>
-                    <img src="/layout_thumbs/1.png" alt="image.png" />
-                  </BorderFrame>
                 </div>
-                <Divider>
+                {/* <Divider>
                   <Button type="link" icon="down">
                     Show more
                   </Button>
-                </Divider>
+                </Divider> */}
               </Form.Item>
-              <Form.Item label="Item" style={{ marginBottom: 0 }}>
+              <Form.Item label="Item">
                 <div className={s["layout-items"]}>
                   <BorderFrame
                     className={classnames(
@@ -120,11 +117,11 @@ export default () => {
                     <img src="/item_thumb/3.svg" alt="image.png" />
                   </BorderFrame>
                 </div>
-                <Divider>
+                {/* <Divider>
                   <Button type="link" icon="down">
                     Show more
                   </Button>
-                </Divider>
+                </Divider> */}
               </Form.Item>
               <Form.Item label="Item Size">
                 <Row>
@@ -170,6 +167,9 @@ export default () => {
                     <Slider min={1} max={20} value={10} />
                   </Col>
                 </Row>
+              </Form.Item>
+              <Form.Item label="Randomness">
+                <Switch defaultChecked={false} />
               </Form.Item>
             </Form>
           </Sider>
