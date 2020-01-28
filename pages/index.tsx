@@ -20,6 +20,7 @@ import random from "lodash.random";
 const { Header, Content, Sider } = Layout;
 import ColorInput from "../components/ColorInput";
 import BorderFrame from "../components/BorderFrame";
+import { withRedux } from "../lib/withRedux";
 
 import "antd/dist/antd.css";
 import s from "./index.less";
@@ -37,7 +38,7 @@ const dimensionsMenu = (
   </Menu>
 );
 
-export default () => {
+const IndexPage = () => {
   let stageRef;
   const width = 600;
   const height = 600;
@@ -240,3 +241,5 @@ export default () => {
     </>
   );
 };
+
+export default withRedux(IndexPage);
