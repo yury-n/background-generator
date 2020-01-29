@@ -151,7 +151,28 @@ const IndexPage = () => {
                 </div>
               </Form.Item>
               <Form.Item label="Randomness">
-                <Switch defaultChecked={false} />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 10
+                  }}
+                >
+                  <Switch
+                    defaultChecked={true}
+                    style={{ marginRight: "12px" }}
+                  />
+                  <Button icon="reload">Refresh</Button>
+                </div>
+                <div className={s["config-input-wrapper"]}>
+                  <Input
+                    min={1}
+                    max={20}
+                    value={0}
+                    className={s["config-input"]}
+                  />
+                  <Slider min={1} max={20} value={10} />
+                </div>
               </Form.Item>
             </Form>
           </Sider>
@@ -160,11 +181,7 @@ const IndexPage = () => {
               style={{ background: "rgba(255, 255, 255, 0.3)", padding: 0 }}
             >
               <Row className={s["header-row"]}>
-                <Col span={8} className={s["refresh-area"]}>
-                  <Button type="primary" ghost icon="reload">
-                    Reload
-                  </Button>
-                </Col>
+                <Col span={8} className={s["refresh-area"]}></Col>
                 <Col span={8} className={s["dimensions-area"]}>
                   <Dimensions />
                 </Col>

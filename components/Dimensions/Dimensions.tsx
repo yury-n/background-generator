@@ -2,14 +2,17 @@ import React from "react";
 import { Icon, Input, Dropdown, Menu } from "antd";
 import s from "./Dimensions.less";
 
-export interface Props {}
+export interface Props {
+  canvasWidth: number;
+  canvasHeight: number;
+}
 
-export const Dimensions: React.FC<Props> = props => {
+export const Dimensions: React.FC<Props> = ({ canvasWidth, canvasHeight }) => {
   return (
     <div className={s["dimensions-form-wrapper"]}>
-      <Input className={s["dimensions-input"]} value={1024} />
+      <Input className={s["dimensions-input"]} defaultValue={canvasWidth} />
       <span className={s["dimensions-x"]}>×</span>
-      <Input className={s["dimensions-input"]} value={768} />
+      <Input className={s["dimensions-input"]} defaultValue={canvasHeight} />
       <Dropdown.Button
         className={s["dimensions-dropdown"]}
         size="large"

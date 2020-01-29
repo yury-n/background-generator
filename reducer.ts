@@ -1,6 +1,8 @@
 import { actionTypes } from "./actions";
 
 export const exampleInitialState = {
+  canvasWidth: 800,
+  canvasHeight: 600,
   count: 0,
   error: false,
   lastUpdate: 0,
