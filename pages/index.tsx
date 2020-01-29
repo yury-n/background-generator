@@ -6,7 +6,6 @@ import {
   Layout,
   Button,
   Slider,
-  InputNumber,
   Row,
   Col,
   Input,
@@ -21,6 +20,7 @@ const { Header, Content, Sider } = Layout;
 import ColorInput from "../components/ColorInput";
 import BorderFrame from "../components/BorderFrame";
 import { withRedux } from "../lib/withRedux";
+import Dimensions from "../components/Dimensions";
 
 import "antd/dist/antd.css";
 import s from "./index.less";
@@ -28,13 +28,6 @@ import s from "./index.less";
 const downloadMenu = (
   <Menu>
     <Menu.Item key="1">Download as SVG</Menu.Item>
-  </Menu>
-);
-
-const dimensionsMenu = (
-  <Menu>
-    <Menu.Item key="1">1024 × 768</Menu.Item>
-    <Menu.Item key="2">800 × 600</Menu.Item>
   </Menu>
 );
 
@@ -125,49 +118,37 @@ const IndexPage = () => {
                 </Divider> */}
               </Form.Item>
               <Form.Item label="Item Size">
-                <Row>
-                  <Col span={6}>
-                    <InputNumber
-                      min={1}
-                      max={20}
-                      value={0}
-                      className={"full-width-input"}
-                    />
-                  </Col>
-                  <Col span={16} offset={1}>
-                    <Slider min={1} max={20} value={10} />
-                  </Col>
-                </Row>
+                <div className={s["config-input-wrapper"]}>
+                  <Input
+                    min={1}
+                    max={20}
+                    value={0}
+                    className={s["config-input"]}
+                  />
+                  <Slider min={1} max={20} value={10} />
+                </div>
               </Form.Item>
               <Form.Item label="Item Count">
-                <Row>
-                  <Col span={6}>
-                    <InputNumber
-                      min={1}
-                      max={20}
-                      value={0}
-                      className={"full-width-input"}
-                    />
-                  </Col>
-                  <Col span={16} offset={1}>
-                    <Slider min={1} max={20} value={10} />
-                  </Col>
-                </Row>
+                <div className={s["config-input-wrapper"]}>
+                  <Input
+                    min={1}
+                    max={20}
+                    value={0}
+                    className={s["config-input"]}
+                  />
+                  <Slider min={1} max={20} value={10} />
+                </div>
               </Form.Item>
               <Form.Item label="Padding">
-                <Row>
-                  <Col span={6}>
-                    <InputNumber
-                      min={1}
-                      max={20}
-                      value={0}
-                      className={"full-width-input"}
-                    />
-                  </Col>
-                  <Col span={16} offset={1}>
-                    <Slider min={1} max={20} value={10} />
-                  </Col>
-                </Row>
+                <div className={s["config-input-wrapper"]}>
+                  <Input
+                    min={1}
+                    max={20}
+                    value={0}
+                    className={s["config-input"]}
+                  />
+                  <Slider min={1} max={20} value={10} />
+                </div>
               </Form.Item>
               <Form.Item label="Randomness">
                 <Switch defaultChecked={false} />
@@ -185,25 +166,15 @@ const IndexPage = () => {
                   </Button>
                 </Col>
                 <Col span={8} className={s["dimensions-area"]}>
-                  <div className={s["dimensions-form-wrapper"]}>
-                    <Input className={s["dimensions-input"]} value={1024} />
-                    <span className={s["dimensions-x"]}>×</span>
-                    <Input className={s["dimensions-input"]} value={768} />
-                    <Dropdown.Button
-                      className={s["dimensions-dropdown"]}
-                      size="large"
-                      icon={<Icon type="down" />}
-                      overlay={dimensionsMenu}
-                    >
-                      Dimensions
-                    </Dropdown.Button>
-                  </div>
+                  <Dimensions />
                 </Col>
                 <Col span={8} className={s["download-area"]}>
                   <Dropdown.Button
                     type="primary"
                     size="large"
-                    icon={<Icon type="down" />}
+                    icon={
+                      <Icon type="down" className={s["download-down-icon"]} />
+                    }
                     overlay={downloadMenu}
                     onClick={() => {
                       console.log({
