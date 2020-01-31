@@ -14,13 +14,12 @@ import {
   // Divider
 } from "antd";
 import Head from "next/head";
-import { Stage, Layer, Rect, Circle } from "react-konva";
-import random from "lodash.random";
 const { Header, Content, Sider } = Layout;
 import ColorInput from "../components/ColorInput";
 import BorderFrame from "../components/BorderFrame";
 import { withRedux } from "../lib/withRedux";
 import Dimensions from "../components/Dimensions";
+import Canvas from "../components/Canvas";
 
 import "antd/dist/antd.css";
 import s from "./index.less";
@@ -32,35 +31,6 @@ const downloadMenu = (
 );
 
 const IndexPage = () => {
-  let stageRef;
-  const width = 600;
-  const height = 600;
-  const itemCount = 50;
-
-  const totalArea = width * height;
-  const pointArea = totalArea / itemCount;
-  const length = Math.sqrt(pointArea);
-
-  const randPower = 0;
-
-  const dots = [];
-  for (let i = length / 2; i < width; i += length) {
-    for (let j = length / 2; j < height; j += length) {
-      const x = i + (random(0, length) - length / 2) * randPower;
-      const y = j + (random(0, length) - length / 2) * randPower;
-      dots.push(
-        <Circle
-          key={`${i}-${j}`}
-          x={x}
-          y={y}
-          radius={2}
-          fill="#000"
-          draggable
-        />
-      );
-    }
-  }
-
   return (
     <>
       <Head>
@@ -193,11 +163,6 @@ const IndexPage = () => {
                       <Icon type="down" className={s["download-down-icon"]} />
                     }
                     overlay={downloadMenu}
-                    onClick={() => {
-                      console.log({
-                        stageRef: stageRef.getStage().toDataURL()
-                      });
-                    }}
                   >
                     <Icon type="download" />
                     Download
@@ -206,18 +171,7 @@ const IndexPage = () => {
               </Row>
             </Header>
             <Content className={s["content"]}>
-              <Stage
-                width={width}
-                height={height}
-                ref={ref => {
-                  stageRef = ref;
-                }}
-              >
-                <Layer>
-                  <Rect fill="#fff" x={0} y={0} width={width} height={height} />
-                  {dots}
-                </Layer>
-              </Stage>
+              <Canvas />
               <div className={s["color-side-bar"]}>
                 <ColorInput color="#fff" />
                 <ColorInput color="#000" />
