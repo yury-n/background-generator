@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import random from "lodash.random";
-import fabric from "fabric";
+import "fabric";
+declare let fabric: any;
 
 export interface Props {
   width: number;
@@ -16,33 +17,33 @@ export const Canvas: React.FC<Props> = ({
   useEffect(() => {
     const fabricCanvas = new fabric.Canvas();
     fabricCanvas.initialize(document.getElementById("canvas"), {
-      height: 300,
-      width: 300
+      width,
+      height
     });
-  }, []);
-  const totalArea = width * height;
-  const pointArea = totalArea / config.itemCount;
-  const length = Math.sqrt(pointArea);
+    const totalArea = width * height;
+    const pointArea = totalArea / config.itemCount;
+    const length = Math.sqrt(pointArea);
 
-  const randPower = 0;
+    const randPower = 0;
 
-  const dots = [];
-  for (let i = length / 2; i < width; i += length) {
-    for (let j = length / 2; j < height; j += length) {
-      const x = i + (random(0, length) - length / 2) * randPower;
-      const y = j + (random(0, length) - length / 2) * randPower;
-      dots.push(
-        <Circle
-          key={`${i}-${j}`}
-          x={x}
-          y={y}
-          radius={2}
-          fill="#000"
-          draggable
-        />
-      );
+    for (let i = length / 2; i < width; i += length) {
+      for (let j = length / 2; j < height; j += length) {
+        const x = i + (random(0, length) - length / 2) * randPower;
+        const y = j + (random(0, length) - length / 2) * randPower;
+        fabricCanvas &&
+          fabricCanvas.add(
+            new fabric.Circle({
+              radius: 2,
+              originX: "center",
+              originY: "center",
+              fill: "#000",
+              top: x,
+              left: y
+            })
+          );
+      }
     }
-  }
+  }, []);
   return <canvas id="canvas" />;
 };
 Canvas.displayName = "Canvas";
