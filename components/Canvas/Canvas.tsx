@@ -15,11 +15,22 @@ export const Canvas: React.FC<Props> = ({
   config = { itemCount: 50 }
 }) => {
   useEffect(() => {
-    const fabricCanvas = new fabric.Canvas();
-    fabricCanvas.initialize(document.getElementById("canvas"), {
-      width,
-      height
-    });
+    document.getElementById("canvas-container").innerHTML =
+      '<canvas id="canvas"></canvas>';
+    const fabricCanvas = new fabric.Canvas("canvas");
+    fabricCanvas.setWidth(width);
+    fabricCanvas.setHeight(height);
+    fabricCanvas.add(
+      new fabric.Rect({
+        width,
+        height,
+        left: 0,
+        top: 0,
+        fill: "#fff",
+        selectable: false,
+        hoverCursor: "default"
+      })
+    );
     const totalArea = width * height;
     const pointArea = totalArea / config.itemCount;
     const length = Math.sqrt(pointArea);
@@ -34,17 +45,18 @@ export const Canvas: React.FC<Props> = ({
           fabricCanvas.add(
             new fabric.Circle({
               radius: 2,
-              originX: "center",
-              originY: "center",
+              originX: "left",
+              originY: "top",
               fill: "#000",
-              top: x,
-              left: y
+              top: y,
+              left: x
             })
           );
       }
     }
-  }, []);
-  return <canvas id="canvas" />;
+    fabricCanvas && fabricCanvas.renderAll();
+  }, [width, height]);
+  return <div id="canvas-container" />;
 };
 Canvas.displayName = "Canvas";
 

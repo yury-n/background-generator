@@ -132,7 +132,9 @@ const IndexPage = () => {
                     defaultChecked={true}
                     style={{ marginRight: "12px" }}
                   />
-                  <Button icon="reload">Refresh</Button>
+                  <Button icon="reload" className={s["refresh-button"]}>
+                    Refresh
+                  </Button>
                 </div>
                 <div className={s["config-input-wrapper"]}>
                   <Input
@@ -176,10 +178,15 @@ const IndexPage = () => {
                 <ColorInput color="#fff" />
                 <ColorInput color="#000" />
               </div>
+              <div className={s["scroll-cta"]}>
+                <div>Scroll to see more</div>
+                <Icon type="down" className={s["scroll-icon"]} />
+              </div>
             </Content>
           </Layout>
         </Layout>
       </Layout>
+      <div className={s["extra-layout"]}></div>
     </>
   );
 };

@@ -109,6 +109,28 @@
   padding-right: @color-sider-bar-width;
 }
 
+.content canvas {
+  margin-top: -20px;
+}
+
+.scroll-cta {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
+  text-align: center;
+  color: black;
+}
+
+.scroll-icon {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
 .color-side-bar {
   position: absolute;
   right: 0;
@@ -142,6 +164,10 @@
   padding-left: 16px;
 }
 
+.refresh-button {
+  background: transparent;
+}
+
 .download-area {
   display: flex;
   flex-direction: row;
@@ -153,4 +179,10 @@
 
 .download-area button:nth-child(2) {
   background: #0157ca;
+}
+
+.extra-layout {
+  width: 100%;
+  height: 100vh;
+  background: rgb(245, 246, 248);
 }
