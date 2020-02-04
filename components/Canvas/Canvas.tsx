@@ -18,6 +18,7 @@ export const Canvas: React.FC<Props> = ({
     document.getElementById("canvas-container").innerHTML =
       '<canvas id="canvas"></canvas>';
     const fabricCanvas = new fabric.Canvas("canvas");
+    window["fabricCanvas"] = fabricCanvas;
     fabricCanvas.setWidth(width);
     fabricCanvas.setHeight(height);
     fabricCanvas.add(

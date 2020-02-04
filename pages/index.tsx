@@ -15,11 +15,12 @@ import {
 } from "antd";
 import Head from "next/head";
 const { Header, Content, Sider } = Layout;
-import ColorInput from "../components/ColorInput";
 import BorderFrame from "../components/BorderFrame";
 import { withRedux } from "../lib/withRedux";
 import Dimensions from "../components/Dimensions";
 import Canvas from "../components/Canvas";
+import { saveAs } from "file-saver";
+import ColorSidebar from "../components/ColorSidebar";
 
 import "antd/dist/antd.css";
 import s from "./index.less";
@@ -165,6 +166,11 @@ const IndexPage = () => {
                       <Icon type="down" className={s["download-down-icon"]} />
                     }
                     overlay={downloadMenu}
+                    onClick={() => {
+                      window["fabricCanvas"]
+                        .toCanvasElement({ enableRetinaScaling: true })
+                        .toBlob(blob => console.log({ blob }));
+                    }}
                   >
                     <Icon type="download" />
                     Download
@@ -174,10 +180,7 @@ const IndexPage = () => {
             </Header>
             <Content className={s["content"]}>
               <Canvas />
-              <div className={s["color-side-bar"]}>
-                <ColorInput color="#fff" />
-                <ColorInput color="#000" />
-              </div>
+              <ColorSidebar className={s["color-side-bar"]} />
               <div className={s["scroll-cta"]}>
                 <div>Scroll to see more</div>
                 <Icon type="down" className={s["scroll-icon"]} />
