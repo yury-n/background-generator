@@ -8,9 +8,7 @@ import {
   Slider,
   Row,
   Col,
-  Input,
-  Menu,
-  Dropdown
+  Input
   // Divider
 } from "antd";
 import Head from "next/head";
@@ -19,17 +17,11 @@ import BorderFrame from "../components/BorderFrame";
 import { withRedux } from "../lib/withRedux";
 import Dimensions from "../components/Dimensions";
 import Canvas from "../components/Canvas";
-import { saveAs } from "file-saver";
 import ColorSidebar from "../components/ColorSidebar";
+import DownloadButton from "../components/DownloadButton";
 
 import "antd/dist/antd.css";
 import s from "./index.less";
-
-const downloadMenu = (
-  <Menu>
-    <Menu.Item key="1">Download as SVG</Menu.Item>
-  </Menu>
-);
 
 const IndexPage = () => {
   return (
@@ -159,22 +151,7 @@ const IndexPage = () => {
                   <Dimensions />
                 </Col>
                 <Col span={8} className={s["download-area"]}>
-                  <Dropdown.Button
-                    type="primary"
-                    size="large"
-                    icon={
-                      <Icon type="down" className={s["download-down-icon"]} />
-                    }
-                    overlay={downloadMenu}
-                    onClick={() => {
-                      window["fabricCanvas"]
-                        .toCanvasElement({ enableRetinaScaling: true })
-                        .toBlob(blob => console.log({ blob }));
-                    }}
-                  >
-                    <Icon type="download" />
-                    Download
-                  </Dropdown.Button>
+                  <DownloadButton />
                 </Col>
               </Row>
             </Header>
