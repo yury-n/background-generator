@@ -142,9 +142,7 @@ const IndexPage = () => {
             </Form>
           </Sider>
           <Layout>
-            <Header
-              style={{ background: "rgba(255, 255, 255, 0.3)", padding: 0 }}
-            >
+            <Header className={s["header"]}>
               <Row className={s["header-row"]}>
                 <Col span={8} className={s["refresh-area"]}></Col>
                 <Col span={8} className={s["dimensions-area"]}>
