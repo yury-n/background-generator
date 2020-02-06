@@ -9,6 +9,11 @@ export interface Props {
   setCanvasHeight: (value: number) => void;
 }
 
+const presetDimensions = [
+  { width: 1024, height: 768 },
+  { width: 800, height: 600 }
+];
+
 export const Dimensions: React.FC<Props> = ({
   canvasWidth,
   canvasHeight,
@@ -53,8 +58,14 @@ export const Dimensions: React.FC<Props> = ({
         icon={<Icon type="down" />}
         overlay={
           <Menu>
-            <Menu.Item key="1">1024 × 768</Menu.Item>
-            <Menu.Item key="2">800 × 600</Menu.Item>
+            {presetDimensions.map(({ width, height }, index) => (
+              <Menu.Item
+                key={index}
+                onClick={() => setCanvasDimensions({ width, height })}
+              >
+                {width} × {height}
+              </Menu.Item>
+            ))}
           </Menu>
         }
       >
