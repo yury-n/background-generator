@@ -1,1 +1,4 @@
-export { default } from "./ColorSidebar";
+import ColorSidebarContainer from "./ColorSidebar.container";
+import ColorSidebar from "./ColorSidebar";
+
+export default ColorSidebarContainer(ColorSidebar);

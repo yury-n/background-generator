@@ -4,14 +4,19 @@ import ColorInput from "../ColorInput";
 import s from "./ColorInput.less";
 
 export interface Props {
+  backgroundColor: string;
   className?: string;
+  setBackgroundColor: ({ color: string }) => void;
 }
 
-export const ColorSidebar: React.FC<Props> = ({ className }) => {
+export const ColorSidebar: React.FC<Props> = ({
+  className,
+  backgroundColor,
+  setBackgroundColor
+}) => {
   return (
     <div className={classnames(s["root"], className)}>
-      <ColorInput color="#fff" />
-      <ColorInput color="#000" />
+      <ColorInput color={backgroundColor} setColor={setBackgroundColor} />
     </div>
   );
 };

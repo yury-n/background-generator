@@ -1,18 +1,21 @@
 import React, { useEffect } from "react";
 import random from "lodash.random";
 import "fabric";
+import { colorObjToString } from "../../utils";
 declare let fabric: any;
 
 export interface Props {
   width: number;
   height: number;
   config: any;
+  configColors: any;
 }
 
 export const Canvas: React.FC<Props> = ({
   width,
   height,
-  config = { itemCount: 50 }
+  config = { itemCount: 50 },
+  configColors
 }) => {
   useEffect(() => {
     document.getElementById("canvas-container").innerHTML =
@@ -27,7 +30,7 @@ export const Canvas: React.FC<Props> = ({
         height,
         left: 0,
         top: 0,
-        fill: "#fff",
+        fill: colorObjToString(configColors.backgroundColor),
         selectable: false,
         hoverCursor: "default"
       })
@@ -56,7 +59,7 @@ export const Canvas: React.FC<Props> = ({
       }
     }
     fabricCanvas && fabricCanvas.renderAll();
-  }, [width, height]);
+  }, [width, height, configColors]);
   return <div id="canvas-container" />;
 };
 Canvas.displayName = "Canvas";
