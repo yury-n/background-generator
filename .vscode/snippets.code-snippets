@@ -100,7 +100,7 @@
       "  StateProps,",
       "  OwnProps,",
       "  AppState",
-      "> = state => ({});",
+      "> = (state: AppState) => ({});",
       "const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {};",
       "",
       "export default connect(",

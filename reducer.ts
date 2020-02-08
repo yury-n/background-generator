@@ -1,6 +1,11 @@
 import { handleActions } from "redux-actions";
 import { AppState } from "./types/store";
-import { setCanvasDimensions, setBackgroundColor } from "./actions";
+import {
+  setCanvasDimensions,
+  setBackgroundColor,
+  setConfigValue,
+  refreshRandomSnapshot
+} from "./actions";
 
 export const initState: AppState = {
   canvasWidth: 800,
@@ -8,7 +13,15 @@ export const initState: AppState = {
   configColors: {
     backgroundColor: "#fff",
     itemColor: "#000"
-  }
+  },
+  configValues: {
+    itemCount: 50,
+    itemSize: 2,
+    padding: 10,
+    withRandomness: false,
+    randomnessStrength: 10
+  },
+  currentRandomSnapshot: Math.random()
 };
 
 const reducer = handleActions<AppState, any>(
@@ -29,6 +42,26 @@ const reducer = handleActions<AppState, any>(
       configColors: {
         ...state.configColors,
         backgroundColor: action.payload.color
+      }
+    }),
+    [setConfigValue.toString()]: (
+      state,
+      action: ReturnType<typeof setConfigValue>
+    ) => ({
+      ...state,
+      configValues: {
+        ...state.configValues,
+        [action.payload.configKey]: action.payload.configValue
+      }
+    }),
+    [refreshRandomSnapshot.toString()]: (
+      state,
+      action: ReturnType<typeof refreshRandomSnapshot>
+    ) => ({
+      ...state,
+      configValues: {
+        ...state.configValues,
+        currentRandomSnapshot: Math.random()
       }
     })
   },

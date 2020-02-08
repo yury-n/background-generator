@@ -5,4 +5,6 @@ export interface AppState {
     backgroundColor: string;
     itemColor: string;
   };
+  configValues: any;
+  currentRandomSnapshot: number;
 }

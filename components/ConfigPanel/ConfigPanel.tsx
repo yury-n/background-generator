@@ -1,18 +1,11 @@
 import React from "react";
 import classnames from "classnames";
-import {
-  Icon,
-  Form,
-  Switch,
-  Layout,
-  Button,
-  Slider,
-  Input,
-  Divider
-} from "antd";
+import { Icon, Form, Layout, Button, Divider } from "antd";
 const { Sider } = Layout;
 import BorderFrame from "../BorderFrame";
 import s from "./ConfigPanel.less";
+import NumberInput from "./NumberInput";
+import RandomnessInput from "./RandomnessInput";
 
 export interface Props {}
 
@@ -61,40 +54,16 @@ export const ConfigPanel: React.FC<Props> = props => {
           </Divider>
         </Form.Item>
         <Form.Item label="Item Size">
-          <div className={s["config-input-wrapper"]}>
-            <Input min={1} max={20} value={0} className={s["config-input"]} />
-            <Slider min={1} max={20} value={10} />
-          </div>
+          <NumberInput configKey="itemSize" />
         </Form.Item>
         <Form.Item label="Item Count">
-          <div className={s["config-input-wrapper"]}>
-            <Input min={1} max={20} value={0} className={s["config-input"]} />
-            <Slider min={1} max={20} value={10} />
-          </div>
+          <NumberInput configKey="itemCount" />
         </Form.Item>
         <Form.Item label="Padding">
-          <div className={s["config-input-wrapper"]}>
-            <Input min={1} max={20} value={0} className={s["config-input"]} />
-            <Slider min={1} max={20} value={10} />
-          </div>
+          <NumberInput configKey="padding" />
         </Form.Item>
         <Form.Item label="Randomness">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: 10
-            }}
-          >
-            <Switch defaultChecked={true} style={{ marginRight: "12px" }} />
-            <Button icon="reload" className={s["refresh-button"]}>
-              Refresh
-            </Button>
-          </div>
-          <div className={s["config-input-wrapper"]}>
-            <Input min={1} max={20} value={0} className={s["config-input"]} />
-            <Slider min={1} max={20} value={10} />
-          </div>
+          <RandomnessInput />
         </Form.Item>
       </Form>
     </Sider>

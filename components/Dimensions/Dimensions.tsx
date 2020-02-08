@@ -6,7 +6,6 @@ export interface Props {
   canvasWidth: number;
   canvasHeight: number;
   setCanvasDimensions: (dimensions: { width: number; height: number }) => void;
-  setCanvasHeight: (value: number) => void;
 }
 
 const presetDimensions = [
@@ -19,38 +18,25 @@ export const Dimensions: React.FC<Props> = ({
   canvasHeight,
   setCanvasDimensions
 }) => {
+  const widthInputCallback = e =>
+    setCanvasDimensions({ width: +e.target.value, height: canvasHeight });
+  const heightInputCallback = e =>
+    setCanvasDimensions({ width: canvasWidth, height: +e.target.value });
+
   return (
     <div className={s["dimensions-form-wrapper"]}>
       <Input
         className={s["dimensions-input"]}
         defaultValue={canvasWidth}
-        onBlur={e =>
-          setCanvasDimensions({ width: +e.target.value, height: canvasHeight })
-        }
-        onKeyUp={e => {
-          if (e.key === "Enter") {
-            setCanvasDimensions({
-              width: +e.currentTarget.value,
-              height: canvasHeight
-            });
-          }
-        }}
+        onBlur={widthInputCallback}
+        onPressEnter={widthInputCallback}
       />
       <span className={s["dimensions-x"]}>×</span>
       <Input
         className={s["dimensions-input"]}
         defaultValue={canvasHeight}
-        onBlur={e =>
-          setCanvasDimensions({ width: canvasWidth, height: +e.target.value })
-        }
-        onKeyUp={e => {
-          if (e.key === "Enter") {
-            setCanvasDimensions({
-              width: canvasWidth,
-              height: +e.currentTarget.value
-            });
-          }
-        }}
+        onBlur={heightInputCallback}
+        onPressEnter={heightInputCallback}
       />
       <Dropdown.Button
         className={s["dimensions-dropdown"]}

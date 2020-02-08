@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import random from "lodash.random";
+import throttle from "lodash.throttle";
 import "fabric";
 import { colorObjToString } from "../../utils";
 declare let fabric: any;
@@ -7,17 +8,26 @@ declare let fabric: any;
 export interface Props {
   width: number;
   height: number;
-  config: any;
+  configValues: any;
   configColors: any;
 }
 
 export const Canvas: React.FC<Props> = ({
   width,
   height,
-  config = { itemCount: 50 },
+  configValues,
   configColors
 }) => {
   useEffect(() => {
+    redrawCanvas({ width, height, configColors, configValues, redrawCanvas });
+  }, [width, height, configColors, configValues, redrawCanvas]);
+
+  return <div id="canvas-container" />;
+};
+Canvas.displayName = "Canvas";
+
+const redrawCanvas = throttle(
+  ({ width, height, configColors, configValues }) => {
     document.getElementById("canvas-container").innerHTML =
       '<canvas id="canvas"></canvas>';
     const fabricCanvas = new fabric.Canvas("canvas");
@@ -36,10 +46,12 @@ export const Canvas: React.FC<Props> = ({
       })
     );
     const totalArea = width * height;
-    const pointArea = totalArea / config.itemCount;
+    const pointArea = totalArea / configValues.itemCount;
     const length = Math.sqrt(pointArea);
 
-    const randPower = 0;
+    const randPower = configValues.withRandomness
+      ? configValues.randomnessStrength / 10
+      : 0;
 
     for (let i = length / 2; i < width; i += length) {
       for (let j = length / 2; j < height; j += length) {
@@ -48,7 +60,7 @@ export const Canvas: React.FC<Props> = ({
         fabricCanvas &&
           fabricCanvas.add(
             new fabric.Circle({
-              radius: 2,
+              radius: configValues.itemSize,
               originX: "left",
               originY: "top",
               fill: "#000",
@@ -59,9 +71,8 @@ export const Canvas: React.FC<Props> = ({
       }
     }
     fabricCanvas && fabricCanvas.renderAll();
-  }, [width, height, configColors]);
-  return <div id="canvas-container" />;
-};
-Canvas.displayName = "Canvas";
+  },
+  100
+);
 
 export default Canvas;
