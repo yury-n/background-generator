@@ -46,7 +46,7 @@
     "fsevents": "2.1.2"
   },
   "engines": {
-    "node": "12.x"
+    "node": "10.x"
   },
   "license": "ISC"
 }
