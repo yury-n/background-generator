@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
+import Head from "next/head";
 import random from "lodash.random";
 import throttle from "lodash.throttle";
-import "fabric";
 import { colorObjToString } from "../../utils";
-declare let fabric: any;
 
 export interface Props {
   width: number;
@@ -22,20 +21,30 @@ export const Canvas: React.FC<Props> = ({
     redrawCanvas({ width, height, configColors, configValues, redrawCanvas });
   }, [width, height, configColors, configValues, redrawCanvas]);
 
-  return <div id="canvas-container" />;
+  return (
+    <>
+      <Head>
+        <script src="https://unpkg.com/fabric@3.6.2/dist/fabric.min.js" />
+      </Head>
+      <div id="canvas-container" />
+    </>
+  );
 };
 Canvas.displayName = "Canvas";
 
 const redrawCanvas = throttle(
   ({ width, height, configColors, configValues }) => {
+    if (!window["fabric"]) {
+      return;
+    }
     document.getElementById("canvas-container").innerHTML =
       '<canvas id="canvas"></canvas>';
-    const fabricCanvas = new fabric.Canvas("canvas");
+    const fabricCanvas = new window["fabric"].Canvas("canvas");
     window["fabricCanvas"] = fabricCanvas;
     fabricCanvas.setWidth(width);
     fabricCanvas.setHeight(height);
     fabricCanvas.add(
-      new fabric.Rect({
+      new window["fabric"].Rect({
         width,
         height,
         left: 0,
@@ -59,7 +68,7 @@ const redrawCanvas = throttle(
         const y = j + (random(0, length) - length / 2) * randPower;
         fabricCanvas &&
           fabricCanvas.add(
-            new fabric.Circle({
+            new window["fabric"].Circle({
               radius: configValues.itemSize,
               originX: "left",
               originY: "top",
