@@ -1,4 +1,4 @@
-@color-sider-bar-width: 57px;
+@content-padding: 64px;
 
 :global {
   .full-width-input {
@@ -6,9 +6,18 @@
   }
 }
 
+.right-side {
+  position: relative;
+}
+
 .header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
   background: rgb(241, 242, 245);
   padding: 0;
+  z-index: 1;
 }
 
 .content {
@@ -17,11 +26,6 @@
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 64px); // @layout-header-height
-  padding-right: @color-sider-bar-width;
-}
-
-.content canvas {
-  margin-top: -35px;
 }
 
 .scroll-cta {
@@ -49,7 +53,7 @@
   bottom: 0;
   box-sizing: border-box;
   padding-top: 10px;
-  width: @color-sider-bar-width;
+  width: 57px;
 }
 
 .header-row {

@@ -21,7 +21,7 @@ const IndexPage = () => {
       <Layout>
         <Layout>
           <ConfigPanel />
-          <Layout>
+          <Layout className={s["right-side"]}>
             <Header className={s["header"]}>
               <Row className={s["header-row"]}>
                 <Col span={8}></Col>

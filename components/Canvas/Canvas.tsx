@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Head from "next/head";
 import random from "lodash.random";
 import throttle from "lodash.throttle";
 import { colorObjToString } from "../../utils";
+
+import s from "./Canvas.less";
 
 export interface Props {
   width: number;
@@ -17,28 +19,60 @@ export const Canvas: React.FC<Props> = ({
   configValues,
   configColors
 }) => {
+  const canvasContainer = useRef<HTMLDivElement>();
+
   useEffect(() => {
-    redrawCanvas({ width, height, configColors, configValues, redrawCanvas });
-  }, [width, height, configColors, configValues, redrawCanvas]);
+    redrawCanvas({
+      width,
+      height,
+      configColors,
+      configValues,
+      canvasContainer,
+      redrawCanvas
+    });
+  }, [
+    width,
+    height,
+    configColors,
+    configValues,
+    canvasContainer,
+    redrawCanvas
+  ]);
 
   return (
     <>
       <Head>
         <script src="https://unpkg.com/fabric@3.6.2/dist/fabric.min.js" />
       </Head>
-      <div id="canvas-container" />
+      <div
+        id="canvas-container"
+        className={s["canvas-container"]}
+        ref={canvasContainer}
+      />
     </>
   );
 };
 Canvas.displayName = "Canvas";
 
 const redrawCanvas = throttle(
-  ({ width, height, configColors, configValues }) => {
-    if (!window["fabric"]) {
+  ({ width, height, configColors, configValues, canvasContainer }) => {
+    if (!window["fabric"] || !canvasContainer.current) {
       return;
     }
-    document.getElementById("canvas-container").innerHTML =
-      '<canvas id="canvas"></canvas>';
+
+    const containerRect = canvasContainer.current.getBoundingClientRect();
+
+    const scaleToFit = getScaleToFullyFit({
+      width,
+      height,
+      maxWidth: containerRect.width - 70 * 2,
+      maxHeight: containerRect.height - 70 * 2
+    });
+
+    document.getElementById(
+      "canvas-container"
+    ).innerHTML = `<canvas id="canvas" style="transform: scale(${scaleToFit})"></canvas>`;
+
     const fabricCanvas = new window["fabric"].Canvas("canvas");
     window["fabricCanvas"] = fabricCanvas;
     fabricCanvas.setWidth(width);
@@ -83,5 +117,19 @@ const redrawCanvas = throttle(
   },
   100
 );
+
+const getScaleToFullyFit = ({ width, height, maxWidth, maxHeight }) => {
+  console.log({ width, height, maxWidth, maxHeight });
+  let scaleToFitWidth = 1;
+  let scaleToFitHeight = 1;
+  if (width && width > maxWidth) {
+    scaleToFitWidth = maxWidth / width;
+  }
+  if (height && height > maxHeight) {
+    scaleToFitHeight = maxHeight / height;
+  }
+  const scaleToFullyFit = Math.min(scaleToFitWidth, scaleToFitHeight);
+  return scaleToFullyFit;
+};
 
 export default Canvas;
