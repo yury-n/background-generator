@@ -9,8 +9,13 @@ export interface Props {
 }
 
 const presetDimensions = [
-  { width: 1024, height: 768 },
-  { width: 800, height: 600 }
+  { width: 1280, height: 720, label: "Youtube Thumb" },
+  { width: 940, height: 788, label: "Facebook Post" },
+  { width: 830, height: 315, label: "Facebook Cover" },
+  { width: 1024, height: 512, label: "Twitter Post" },
+  { width: 1500, height: 500, label: "Twitter Cover" },
+  { width: 1080, height: 1080, label: "Instagram Square" },
+  { width: 1080, height: 1920, label: "Instagram Story" }
 ];
 
 export const Dimensions: React.FC<Props> = ({
@@ -26,6 +31,7 @@ export const Dimensions: React.FC<Props> = ({
   return (
     <div className={s["dimensions-form-wrapper"]}>
       <Input
+        key={canvasWidth}
         className={s["dimensions-input"]}
         defaultValue={canvasWidth}
         onBlur={widthInputCallback}
@@ -33,6 +39,7 @@ export const Dimensions: React.FC<Props> = ({
       />
       <span className={s["dimensions-x"]}>×</span>
       <Input
+        key={canvasHeight}
         className={s["dimensions-input"]}
         defaultValue={canvasHeight}
         onBlur={heightInputCallback}
@@ -44,12 +51,17 @@ export const Dimensions: React.FC<Props> = ({
         icon={<Icon type="down" />}
         overlay={
           <Menu>
-            {presetDimensions.map(({ width, height }, index) => (
+            {presetDimensions.map(({ width, height, label }, index) => (
               <Menu.Item
                 key={index}
                 onClick={() => setCanvasDimensions({ width, height })}
               >
-                {width} × {height}
+                <div className={s["menu-item"]}>
+                  <div>{label}</div>
+                  <div>
+                    {width} × {height}
+                  </div>
+                </div>
               </Menu.Item>
             ))}
           </Menu>

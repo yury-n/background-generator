@@ -69,9 +69,8 @@ const redrawCanvas = throttle(
       maxHeight: containerRect.height - 70 * 2
     });
 
-    document.getElementById(
-      "canvas-container"
-    ).innerHTML = `<canvas id="canvas" style="transform: scale(${scaleToFit})"></canvas>`;
+    canvasContainer.current.innerHTML = `<div id="canvas-scale-wrapper"><canvas id="canvas"></canvas></div>`;
+    canvasContainer.current.firstChild.style.transform = `scale(${scaleToFit})`;
 
     const fabricCanvas = new window["fabric"].Canvas("canvas");
     window["fabricCanvas"] = fabricCanvas;
@@ -128,6 +127,7 @@ const getScaleToFullyFit = ({ width, height, maxWidth, maxHeight }) => {
   if (height && height > maxHeight) {
     scaleToFitHeight = maxHeight / height;
   }
+  console.log({ scaleToFitWidth, scaleToFitHeight });
   const scaleToFullyFit = Math.min(scaleToFitWidth, scaleToFitHeight);
   return scaleToFullyFit;
 };
