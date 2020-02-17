@@ -29,7 +29,10 @@ export const Dimensions: React.FC<Props> = ({
     setCanvasDimensions({ width: canvasWidth, height: +e.target.value });
 
   return (
-    <div className={s["dimensions-form-wrapper"]}>
+    <div
+      key={`${canvasWidth}-${canvasHeight}`}
+      className={s["dimensions-form-wrapper"]}
+    >
       <Input
         key={canvasWidth}
         className={s["dimensions-input"]}

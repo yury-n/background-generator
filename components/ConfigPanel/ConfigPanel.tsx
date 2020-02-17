@@ -6,6 +6,7 @@ import BorderFrame from "../BorderFrame";
 import s from "./ConfigPanel.less";
 import NumberInput from "./NumberInput";
 import RandomnessInput from "./RandomnessInput";
+import ImageUpload from "./ImageUpload";
 
 export interface Props {}
 
@@ -31,12 +32,7 @@ export const ConfigPanel: React.FC<Props> = props => {
         </Form.Item>
         <Form.Item label="Item" className={s["form-item-with-show-more"]}>
           <div className={s["layout-items"]}>
-            <BorderFrame
-              className={classnames(s["item-thumb"], s["upload-item-thumb"])}
-            >
-              <Icon type="upload" />
-              <span>Upload</span>
-            </BorderFrame>
+            <ImageUpload />
             <BorderFrame className={classnames(s["item-thumb"])}>
               <img src="/item_thumb/2.svg" alt="image.png" />
             </BorderFrame>

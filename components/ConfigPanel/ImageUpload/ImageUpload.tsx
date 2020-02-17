@@ -1,0 +1,48 @@
+import React from "react";
+import { Icon } from "antd";
+import BorderFrame from "../../BorderFrame";
+
+import s from "./ImageUpload.less";
+
+export interface Props {}
+
+export const ImageUpload: React.FC<Props> = props => {
+  const onFileChange = e => {
+    const file = e.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.onload = onFileReaderLoad;
+    fileReader.readAsDataURL(file);
+  };
+  const onFileReaderLoad = e => {
+    const img = document.createElement("img");
+    img.src = e.target.result;
+    img.onload = () => {
+      window["loadedFile"] = {
+        imageUrl: e.target.result,
+        width: img.clientWidth,
+        height: img.clientHeight
+      };
+      document.body.removeChild(img);
+    };
+    document.body.appendChild(img);
+  };
+  return (
+    <div className={s["upload-item-thumb-wrapper"]}>
+      <input
+        type="file"
+        name="file"
+        id="file"
+        className={s["file-input"]}
+        onChange={onFileChange}
+      />
+      <label className={s["file-input-label"]} htmlFor="file" />
+      <BorderFrame className={s["upload-item-thumb"]}>
+        <Icon type="upload" />
+        <span>Upload</span>
+      </BorderFrame>
+    </div>
+  );
+};
+ImageUpload.displayName = "ImageUpload";
+
+export default ImageUpload;

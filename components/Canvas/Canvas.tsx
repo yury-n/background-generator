@@ -95,46 +95,38 @@ const redrawCanvas = throttle(
       ? configValues.randomnessStrength / 10
       : 0;
 
-    window["fabric"].loadSVGFromURL("/svgs/1.svg", function(objects, options) {
-      var obj = window["fabric"].util.groupSVGElements(objects, options);
+    window["fabric"].loadSVGFromURL(
+      window["loadedFile"] ? window["loadedFile"].imageUrl : "/svgs/1.svg",
+      function(objects, options) {
+        var obj = window["fabric"].util.groupSVGElements(objects, options);
 
-      for (let i = length / 2; i < width; i += length) {
-        for (let j = length / 2; j < height; j += length) {
-          const x = i + (random(0, length) - length / 2) * randPower;
-          const y = j + (random(0, length) - length / 2) * randPower;
-          obj.clone(
-            (function(x, y) {
-              return function(clone) {
-                clone.set({
-                  left: x,
-                  top: y
-                });
-                fabricCanvas && fabricCanvas.add(clone);
-              };
-            })(x, y)
-          );
-          // fabricCanvas &&
-          //   fabricCanvas.add(
-          //     new window["fabric"].Circle({
-          //       radius: configValues.itemSize,
-          //       originX: "left",
-          //       originY: "top",
-          //       fill: "#000",
-          //       top: y,
-          //       left: x
-          //     })
-          //   );
+        for (let i = length / 2; i < width; i += length) {
+          for (let j = length / 2; j < height; j += length) {
+            const x = i + (random(0, length) - length / 2) * randPower;
+            const y = j + (random(0, length) - length / 2) * randPower;
+            obj.clone(
+              (function(x, y) {
+                return function(clone) {
+                  clone.scaleToWidth(100);
+                  clone.set({
+                    left: x,
+                    top: y
+                  });
+                  fabricCanvas && fabricCanvas.add(clone);
+                };
+              })(x, y)
+            );
+          }
         }
-      }
 
-      fabricCanvas && fabricCanvas.renderAll();
-    });
+        fabricCanvas && fabricCanvas.renderAll();
+      }
+    );
   },
   100
 );
 
 const getScaleToFullyFit = ({ width, height, maxWidth, maxHeight }) => {
-  console.log({ width, height, maxWidth, maxHeight });
   let scaleToFitWidth = 1;
   let scaleToFitHeight = 1;
   if (width && width > maxWidth) {
