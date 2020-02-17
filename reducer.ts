@@ -8,8 +8,8 @@ import {
 } from "./actions";
 
 export const initState: AppState = {
-  canvasWidth: 800,
-  canvasHeight: 600,
+  canvasWidth: 1080,
+  canvasHeight: 1080,
   configColors: {
     backgroundColor: "#fff",
     itemColor: "#000"

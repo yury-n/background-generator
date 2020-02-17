@@ -95,24 +95,40 @@ const redrawCanvas = throttle(
       ? configValues.randomnessStrength / 10
       : 0;
 
-    for (let i = length / 2; i < width; i += length) {
-      for (let j = length / 2; j < height; j += length) {
-        const x = i + (random(0, length) - length / 2) * randPower;
-        const y = j + (random(0, length) - length / 2) * randPower;
-        fabricCanvas &&
-          fabricCanvas.add(
-            new window["fabric"].Circle({
-              radius: configValues.itemSize,
-              originX: "left",
-              originY: "top",
-              fill: "#000",
-              top: y,
-              left: x
-            })
+    window["fabric"].loadSVGFromURL("/svgs/1.svg", function(objects, options) {
+      var obj = window["fabric"].util.groupSVGElements(objects, options);
+
+      for (let i = length / 2; i < width; i += length) {
+        for (let j = length / 2; j < height; j += length) {
+          const x = i + (random(0, length) - length / 2) * randPower;
+          const y = j + (random(0, length) - length / 2) * randPower;
+          obj.clone(
+            (function(x, y) {
+              return function(clone) {
+                clone.set({
+                  left: x,
+                  top: y
+                });
+                fabricCanvas && fabricCanvas.add(clone);
+              };
+            })(x, y)
           );
+          // fabricCanvas &&
+          //   fabricCanvas.add(
+          //     new window["fabric"].Circle({
+          //       radius: configValues.itemSize,
+          //       originX: "left",
+          //       originY: "top",
+          //       fill: "#000",
+          //       top: y,
+          //       left: x
+          //     })
+          //   );
+        }
       }
-    }
-    fabricCanvas && fabricCanvas.renderAll();
+
+      fabricCanvas && fabricCanvas.renderAll();
+    });
   },
   100
 );
