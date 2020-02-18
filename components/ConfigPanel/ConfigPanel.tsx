@@ -58,8 +58,11 @@ export const ConfigPanel: React.FC<Props> = props => {
         <Form.Item label="Padding">
           <NumberInput configKey="padding" />
         </Form.Item>
-        <Form.Item label="Randomness">
-          <RandomnessInput />
+        <Form.Item label="Randomize Position">
+          <RandomnessInput
+            boolFlagName="withRandomPosition"
+            strengthFlagName="randomizePositionStrength"
+          />
         </Form.Item>
       </Form>
     </Sider>

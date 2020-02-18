@@ -1,6 +1,5 @@
 import React from "react";
 import { Icon } from "antd";
-import BorderFrame from "../../BorderFrame";
 
 import s from "./ImageUpload.less";
 
@@ -13,6 +12,7 @@ export const ImageUpload: React.FC<Props> = props => {
     fileReader.onload = onFileReaderLoad;
     fileReader.readAsDataURL(file);
   };
+
   const onFileReaderLoad = e => {
     const img = document.createElement("img");
     img.src = e.target.result;
@@ -36,10 +36,10 @@ export const ImageUpload: React.FC<Props> = props => {
         onChange={onFileChange}
       />
       <label className={s["file-input-label"]} htmlFor="file" />
-      <BorderFrame className={s["upload-item-thumb"]}>
+      <div className={s["upload-item-thumb"]}>
         <Icon type="upload" />
         <span>Upload</span>
-      </BorderFrame>
+      </div>
     </div>
   );
 };

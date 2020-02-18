@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import Head from "next/head";
-import random from "lodash.random";
 import throttle from "lodash.throttle";
 import { colorObjToString } from "../../utils";
+import layouts from "../../layouts";
 
 import s from "./Canvas.less";
 
@@ -60,6 +60,8 @@ const redrawCanvas = throttle(
       return;
     }
 
+    const layout = layouts.find(l => l.id === 1);
+
     const containerRect = canvasContainer.current.getBoundingClientRect();
 
     const scaleToFit = getScaleToFullyFit({
@@ -87,38 +89,27 @@ const redrawCanvas = throttle(
         hoverCursor: "default"
       })
     );
-    const totalArea = width * height;
-    const pointArea = totalArea / configValues.itemCount;
-    const length = Math.sqrt(pointArea);
 
-    const randPower = configValues.withRandomness
-      ? configValues.randomnessStrength / 10
-      : 0;
+    const items = layout.generate(width, height, configValues);
 
     window["fabric"].loadSVGFromURL(
       window["loadedFile"] ? window["loadedFile"].imageUrl : "/svgs/1.svg",
       function(objects, options) {
         var obj = window["fabric"].util.groupSVGElements(objects, options);
-
-        for (let i = length / 2; i < width; i += length) {
-          for (let j = length / 2; j < height; j += length) {
-            const x = i + (random(0, length) - length / 2) * randPower;
-            const y = j + (random(0, length) - length / 2) * randPower;
-            obj.clone(
-              (function(x, y) {
-                return function(clone) {
-                  clone.scaleToWidth(100);
-                  clone.set({
-                    left: x,
-                    top: y
-                  });
-                  fabricCanvas && fabricCanvas.add(clone);
-                };
-              })(x, y)
-            );
-          }
-        }
-
+        items.forEach(item =>
+          obj.clone(
+            (function(top, left) {
+              return function(clone) {
+                clone.scaleToWidth(50);
+                clone.set({
+                  left: left - 25,
+                  top: top - 25
+                });
+                fabricCanvas && fabricCanvas.add(clone);
+              };
+            })(item.top, item.left)
+          )
+        );
         fabricCanvas && fabricCanvas.renderAll();
       }
     );

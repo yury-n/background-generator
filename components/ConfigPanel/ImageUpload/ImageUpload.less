@@ -6,6 +6,8 @@
   border: 1px solid #000;
   color: #2f2f2f;
   border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
   & > * + * {
     margin-top: 2px;
   }
@@ -36,4 +38,8 @@
   bottom: 0;
   cursor: pointer;
   z-index: 1;
+}
+
+.file-input-label:hover + .upload-item-thumb {
+  border-color: #999;
 }

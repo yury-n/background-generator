@@ -18,8 +18,8 @@ export const initState: AppState = {
     itemCount: 50,
     itemSize: 2,
     padding: 10,
-    withRandomness: false,
-    randomnessStrength: 10
+    withRandomPosition: false,
+    randomizePositionStrength: 10
   },
   currentRandomSnapshot: Math.random()
 };
