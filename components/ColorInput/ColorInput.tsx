@@ -42,7 +42,10 @@ export const ColorInput: React.FC<Props> = ({ color, setColor }) => {
             <Radio.Button value="c">Radial</Radio.Button>
           </Radio.Group>
           <div className={s["fill-preview-wrapper"]}>
-            <div className={s["preview-color-box"]}>
+            <div className={s["preview-color-box"]} style={{ left: 0 }}>
+              <div className={s["preview-color-box-inner"]} />
+            </div>
+            <div className={s["preview-color-box"]} style={{ right: 0 }}>
               <div className={s["preview-color-box-inner"]} />
             </div>
             <div className={s["fill-preview"]} />
@@ -52,7 +55,7 @@ export const ColorInput: React.FC<Props> = ({ color, setColor }) => {
             onChange={({ rgb }) => setColor({ color: rgb })}
           />
           <Form layout="vertical">
-            <Form.Item label="Angle">
+            <Form.Item label="Angle" className={s["form-item"]}>
               <Slider
                 className={s["slider"]}
                 min={1}
