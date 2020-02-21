@@ -78,23 +78,25 @@ const redrawCanvas = throttle(
     window["fabricCanvas"] = fabricCanvas;
     fabricCanvas.setWidth(width);
     fabricCanvas.setHeight(height);
-    fabricCanvas.add(
-      new window["fabric"].Rect({
-        width,
-        height,
-        left: 0,
-        top: 0,
-        fill: colorObjToString(configColors.backgroundColor),
-        selectable: false,
-        hoverCursor: "default"
-      })
-    );
+    const rect = new window["fabric"].Rect({
+      width,
+      height,
+      left: 0,
+      top: 0,
+      fill: colorObjToString(configColors.backgroundColor),
+      selectable: false,
+      hoverCursor: "default"
+    });
+    window["rect"] = rect;
+    fabricCanvas.add(rect);
 
     const items = layout.generate(width, height, configValues);
 
     window["fabric"].loadSVGFromURL(
       window["loadedFile"] ? window["loadedFile"].imageUrl : "/svgs/1.svg",
       function(objects, options) {
+        console.log({ objects });
+        objects[0].fill.colorStops[1].color = "rgb(255,255,255)";
         var obj = window["fabric"].util.groupSVGElements(objects, options);
         items.forEach(item =>
           obj.clone(
