@@ -6,12 +6,13 @@ import {
   setConfigValue,
   refreshRandomSnapshot
 } from "./actions";
+import { FillType } from "./types";
 
 export const initState: AppState = {
   canvasWidth: 1080,
   canvasHeight: 1080,
   configColors: {
-    backgroundColor: "#fff",
+    backgroundColor: { type: FillType.Solid, value: "#fff" },
     itemColor: "#000"
   },
   configValues: {
@@ -41,7 +42,10 @@ const reducer = handleActions<AppState, any>(
       ...state,
       configColors: {
         ...state.configColors,
-        backgroundColor: action.payload.color
+        backgroundColor: {
+          ...state.configColors["backgroundColor"],
+          value: action.payload.color
+        }
       }
     }),
     [setConfigValue.toString()]: (

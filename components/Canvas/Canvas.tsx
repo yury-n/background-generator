@@ -83,7 +83,7 @@ const redrawCanvas = throttle(
       height,
       left: 0,
       top: 0,
-      fill: colorObjToString(configColors.backgroundColor),
+      fill: colorObjToString(configColors.backgroundColor.value),
       selectable: false,
       hoverCursor: "default"
     });

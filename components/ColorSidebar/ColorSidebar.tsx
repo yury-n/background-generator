@@ -2,9 +2,10 @@ import React from "react";
 import classnames from "classnames";
 import ColorInput from "../ColorInput";
 import s from "./ColorInput.less";
+import { FillType } from "../../types";
 
 export interface Props {
-  backgroundColor: string;
+  backgroundColor: { type: FillType; value: string };
   className?: string;
   setBackgroundColor: ({ color: string }) => void;
 }
