@@ -1,4 +1,5 @@
 import { createAction } from "redux-actions";
+import { Color } from "./types";
 
 export const refreshRandomSnapshot = createAction("REFRESH_RANDOM_SNAPSHOT");
 
@@ -7,9 +8,7 @@ export const setCanvasDimensions = createAction<{
   height: number;
 }>("SET_CANVAS_DIMENSIONS");
 
-export const setBackgroundColor = createAction<{
-  color: string;
-}>("SET_BACKGROUND_COLOR");
+export const setBackgroundColor = createAction<Color>("SET_BACKGROUND_COLOR");
 
 export const setConfigValue = createAction<{
   configKey: string;

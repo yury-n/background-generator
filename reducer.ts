@@ -12,8 +12,8 @@ export const initState: AppState = {
   canvasWidth: 1080,
   canvasHeight: 1080,
   configColors: {
-    backgroundColor: { type: FillType.Solid, value: "#fff" },
-    itemColor: "#000"
+    backgroundColor: { type: FillType.Solid, values: ["#fff", "#ccc"] },
+    itemColor: { type: FillType.Solid, values: ["#000"] }
   },
   configValues: {
     itemCount: 50,
@@ -44,7 +44,7 @@ const reducer = handleActions<AppState, any>(
         ...state.configColors,
         backgroundColor: {
           ...state.configColors["backgroundColor"],
-          value: action.payload.color
+          ...action.payload
         }
       }
     }),

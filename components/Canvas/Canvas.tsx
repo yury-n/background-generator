@@ -5,6 +5,7 @@ import { colorObjToString } from "../../utils";
 import layouts from "../../layouts";
 
 import s from "./Canvas.less";
+import { FillType } from "../../types";
 
 export interface Props {
   width: number;
@@ -83,10 +84,25 @@ const redrawCanvas = throttle(
       height,
       left: 0,
       top: 0,
-      fill: colorObjToString(configColors.backgroundColor.value),
       selectable: false,
       hoverCursor: "default"
     });
+    if (configColors.backgroundColor.type === FillType.Solid) {
+      rect.set({
+        fill: colorObjToString(configColors.backgroundColor.values[0])
+      });
+    } else {
+      rect.setGradient("fill", {
+        x1: 0,
+        y1: 0,
+        x2: width,
+        y2: 0,
+        colorStops: {
+          0: colorObjToString(configColors.backgroundColor.values[0]),
+          1: colorObjToString(configColors.backgroundColor.values[1])
+        }
+      });
+    }
     window["rect"] = rect;
     fabricCanvas.add(rect);
 

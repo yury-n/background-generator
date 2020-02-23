@@ -2,22 +2,21 @@ import React, { useState, useRef } from "react";
 import classnames from "classnames";
 import { ChromePicker } from "react-color";
 import { Popover } from "antd";
-import { colorObjToString } from "../../utils";
+import { colorObjToString, colorObjToCSSBackground } from "../../utils";
 import { Radio } from "antd";
 import { Slider } from "antd";
 import { Form } from "antd";
-import { FillType } from "../../types";
+import { FillType, Color } from "../../types";
 
 import s from "./ColorInput.less";
 
 export interface Props {
-  color: { type: FillType; value: string };
-  setColor: ({ color: string }) => void;
+  color: Color;
+  setColor: (obj: Color) => void;
 }
 
 export const ColorInput: React.FC<Props> = ({ color, setColor }) => {
   const ref = useRef();
-  const [fillType, setFillType] = useState(FillType.Solid);
   const [activeColor, setActiveColor] = useState(0);
 
   return (
@@ -30,28 +29,43 @@ export const ColorInput: React.FC<Props> = ({ color, setColor }) => {
             <Radio.Group
               className={s["radio-group"]}
               onChange={f => f}
-              value={fillType}
+              value={color.type}
             >
               <Radio.Button
                 value={FillType.Solid}
-                onChange={() => setFillType(FillType.Solid)}
+                onChange={() =>
+                  setColor({
+                    ...color,
+                    type: FillType.Solid
+                  })
+                }
               >
                 Solid
               </Radio.Button>
               <Radio.Button
                 value={FillType.Linear}
-                onChange={() => setFillType(FillType.Linear)}
+                onChange={() =>
+                  setColor({
+                    ...color,
+                    type: FillType.Linear
+                  })
+                }
               >
                 Linear
               </Radio.Button>
               <Radio.Button
                 value={FillType.Radial}
-                onChange={() => setFillType(FillType.Radial)}
+                onChange={() =>
+                  setColor({
+                    ...color,
+                    type: FillType.Radial
+                  })
+                }
               >
                 Radial
               </Radio.Button>
             </Radio.Group>
-            {fillType !== FillType.Solid && (
+            {color.type !== FillType.Solid && (
               <div className={s["fill-preview-wrapper"]}>
                 <div
                   className={classnames(
@@ -73,15 +87,26 @@ export const ColorInput: React.FC<Props> = ({ color, setColor }) => {
                 >
                   <div className={s["preview-color-box-inner"]} />
                 </div>
-                <div className={s["fill-preview"]} />
+                <div
+                  className={s["fill-preview"]}
+                  style={{
+                    background: `linear-gradient(to right, ${colorObjToString(
+                      color.values[0]
+                    )}, ${colorObjToString(color.values[1])})`
+                  }}
+                />
               </div>
             )}
             <ChromePicker
-              color={color.value}
-              onChange={({ rgb }) => setColor({ color: rgb })}
+              color={color.values[activeColor]}
+              onChange={({ rgb }) => {
+                const colorValues = [...color.values];
+                colorValues[activeColor] = rgb;
+                setColor({ ...color, values: colorValues });
+              }}
             />
             <Form layout="vertical">
-              {fillType === FillType.Linear && (
+              {color.type === FillType.Linear && (
                 <Form.Item label="Angle" className={s["form-item"]}>
                   <Slider
                     className={s["slider"]}
@@ -92,7 +117,7 @@ export const ColorInput: React.FC<Props> = ({ color, setColor }) => {
                   />
                 </Form.Item>
               )}
-              {fillType === FillType.Radial && (
+              {color.type === FillType.Radial && (
                 <>
                   <Form.Item label="X-Shift" className={s["form-item"]}>
                     <Slider
@@ -121,7 +146,7 @@ export const ColorInput: React.FC<Props> = ({ color, setColor }) => {
         <div
           className={s["color"]}
           style={{
-            background: colorObjToString(color)
+            background: colorObjToCSSBackground(color)
           }}
         />
       </Popover>

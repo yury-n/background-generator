@@ -1,11 +1,11 @@
-import { FillType } from "../types";
+import { Color } from "../types";
 
 export interface AppState {
   canvasWidth: number;
   canvasHeight: number;
   configColors: {
-    backgroundColor: { type: FillType; value: string };
-    itemColor: string;
+    backgroundColor: Color;
+    itemColor: Color;
   };
   configValues: any;
   currentRandomSnapshot: number;

@@ -1,13 +1,13 @@
 import React from "react";
 import classnames from "classnames";
 import ColorInput from "../ColorInput";
+import { Color } from "../../types";
 import s from "./ColorInput.less";
-import { FillType } from "../../types";
 
 export interface Props {
-  backgroundColor: { type: FillType; value: string };
+  backgroundColor: Color;
   className?: string;
-  setBackgroundColor: ({ color: string }) => void;
+  setBackgroundColor: (obj: Color) => void;
 }
 
 export const ColorSidebar: React.FC<Props> = ({
