@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Head from "next/head";
 import throttle from "lodash.throttle";
-import { colorObjToString } from "../../utils";
+import { colorObjToString, angle2rect } from "../../utils";
 import layouts from "../../layouts";
 
 import s from "./Canvas.less";
@@ -91,12 +91,35 @@ const redrawCanvas = throttle(
       rect.set({
         fill: colorObjToString(configColors.backgroundColor.values[0])
       });
-    } else {
+    } else if (configColors.backgroundColor.type === FillType.Linear) {
+      const gradientStart = angle2rect(
+        configColors.backgroundColor.angle,
+        width,
+        height
+      );
+      const gradientEnd = {
+        x: width - gradientStart.x,
+        y: height - gradientStart.y
+      };
       rect.setGradient("fill", {
-        x1: 0,
-        y1: 0,
-        x2: width,
-        y2: 0,
+        x1: gradientStart.x,
+        y1: gradientStart.y,
+        x2: gradientEnd.x,
+        y2: gradientEnd.y,
+        colorStops: {
+          0: colorObjToString(configColors.backgroundColor.values[0]),
+          1: colorObjToString(configColors.backgroundColor.values[1])
+        }
+      });
+    } else if (configColors.backgroundColor.type === FillType.Radial) {
+      rect.setGradient("fill", {
+        x1: width / 2,
+        y1: height / 2,
+        x2: width / 2,
+        y2: height / 2,
+        type: "radial",
+        r1: width / 2,
+        r2: 10,
         colorStops: {
           0: colorObjToString(configColors.backgroundColor.values[0]),
           1: colorObjToString(configColors.backgroundColor.values[1])

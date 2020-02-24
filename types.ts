@@ -9,4 +9,7 @@ export enum FillType {
 export type Color = {
   type: FillType;
   values: (string | RGBColor)[];
+  angle?: number;
+  xShift?: number;
+  yShift?: number;
 };

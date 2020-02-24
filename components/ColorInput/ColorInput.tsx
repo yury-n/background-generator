@@ -47,7 +47,8 @@ export const ColorInput: React.FC<Props> = ({ color, setColor }) => {
                 onChange={() =>
                   setColor({
                     ...color,
-                    type: FillType.Linear
+                    type: FillType.Linear,
+                    angle: color.angle ?? 0
                   })
                 }
               >
@@ -110,10 +111,12 @@ export const ColorInput: React.FC<Props> = ({ color, setColor }) => {
                 <Form.Item label="Angle" className={s["form-item"]}>
                   <Slider
                     className={s["slider"]}
-                    min={1}
-                    max={100}
-                    value={50}
-                    onChange={f => f}
+                    min={-180}
+                    max={180}
+                    value={color.angle}
+                    onChange={value =>
+                      setColor({ ...color, angle: value as number })
+                    }
                   />
                 </Form.Item>
               )}
