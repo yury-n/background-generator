@@ -9,6 +9,9 @@ export const setCanvasDimensions = createAction<{
 }>("SET_CANVAS_DIMENSIONS");
 
 export const setBackgroundColor = createAction<Color>("SET_BACKGROUND_COLOR");
+export const setItemColor = createAction<{ index: number; color: Color }>(
+  "SET_ITEM_COLOR"
+);
 
 export const setConfigValue = createAction<{
   configKey: string;

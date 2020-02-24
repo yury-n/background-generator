@@ -4,7 +4,8 @@ import {
   setCanvasDimensions,
   setBackgroundColor,
   setConfigValue,
-  refreshRandomSnapshot
+  refreshRandomSnapshot,
+  setItemColor
 } from "./actions";
 import { FillType } from "./types";
 
@@ -13,7 +14,7 @@ export const initState: AppState = {
   canvasHeight: 1080,
   configColors: {
     backgroundColor: { type: FillType.Solid, values: ["#fff", "#ccc"] },
-    itemColor: { type: FillType.Solid, values: ["#000"] }
+    itemColors: [{ type: FillType.Solid, values: ["#000", "#ccc"] }]
   },
   configValues: {
     itemCount: 50,
@@ -48,6 +49,22 @@ const reducer = handleActions<AppState, any>(
         }
       }
     }),
+    [setItemColor.toString()]: (
+      state,
+      action: ReturnType<typeof setItemColor>
+    ) => {
+      const newItemColors = [...state.configColors.itemColors];
+
+      newItemColors[action.payload.index] = action.payload.color;
+
+      return {
+        ...state,
+        configColors: {
+          ...state.configColors,
+          itemColors: newItemColors
+        }
+      };
+    },
     [setConfigValue.toString()]: (
       state,
       action: ReturnType<typeof setConfigValue>

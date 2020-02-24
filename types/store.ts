@@ -5,7 +5,7 @@ export interface AppState {
   canvasHeight: number;
   configColors: {
     backgroundColor: Color;
-    itemColor: Color;
+    itemColors: Color[];
   };
   configValues: any;
   currentRandomSnapshot: number;

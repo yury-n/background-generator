@@ -55,6 +55,45 @@ export const Canvas: React.FC<Props> = ({
 };
 Canvas.displayName = "Canvas";
 
+const applyColorToFabricElement = (color, elem) => {
+  const { width, height } = elem;
+  if (color.type === FillType.Solid) {
+    elem.set({
+      fill: colorObjToString(color.values[0])
+    });
+  } else if (color.type === FillType.Linear) {
+    const gradientStart = angle2rect(color.angle, width, height);
+    const gradientEnd = {
+      x: width - gradientStart.x,
+      y: height - gradientStart.y
+    };
+    elem.setGradient("fill", {
+      x1: gradientStart.x,
+      y1: gradientStart.y,
+      x2: gradientEnd.x,
+      y2: gradientEnd.y,
+      colorStops: {
+        0: colorObjToString(color.values[0]),
+        1: colorObjToString(color.values[1])
+      }
+    });
+  } else if (color.type === FillType.Radial) {
+    elem.setGradient("fill", {
+      x1: width / 2,
+      y1: height / 2,
+      x2: width / 2,
+      y2: height / 2,
+      type: "radial",
+      r1: width / 2,
+      r2: 10,
+      colorStops: {
+        0: colorObjToString(color.values[0]),
+        1: colorObjToString(color.values[1])
+      }
+    });
+  }
+};
+
 const redrawCanvas = throttle(
   ({ width, height, configColors, configValues, canvasContainer }) => {
     if (!window["fabric"] || !canvasContainer.current) {
@@ -87,45 +126,8 @@ const redrawCanvas = throttle(
       selectable: false,
       hoverCursor: "default"
     });
-    if (configColors.backgroundColor.type === FillType.Solid) {
-      rect.set({
-        fill: colorObjToString(configColors.backgroundColor.values[0])
-      });
-    } else if (configColors.backgroundColor.type === FillType.Linear) {
-      const gradientStart = angle2rect(
-        configColors.backgroundColor.angle,
-        width,
-        height
-      );
-      const gradientEnd = {
-        x: width - gradientStart.x,
-        y: height - gradientStart.y
-      };
-      rect.setGradient("fill", {
-        x1: gradientStart.x,
-        y1: gradientStart.y,
-        x2: gradientEnd.x,
-        y2: gradientEnd.y,
-        colorStops: {
-          0: colorObjToString(configColors.backgroundColor.values[0]),
-          1: colorObjToString(configColors.backgroundColor.values[1])
-        }
-      });
-    } else if (configColors.backgroundColor.type === FillType.Radial) {
-      rect.setGradient("fill", {
-        x1: width / 2,
-        y1: height / 2,
-        x2: width / 2,
-        y2: height / 2,
-        type: "radial",
-        r1: width / 2,
-        r2: 10,
-        colorStops: {
-          0: colorObjToString(configColors.backgroundColor.values[0]),
-          1: colorObjToString(configColors.backgroundColor.values[1])
-        }
-      });
-    }
+    applyColorToFabricElement(configColors.backgroundColor, rect);
+
     window["rect"] = rect;
     fabricCanvas.add(rect);
 
@@ -146,6 +148,7 @@ const redrawCanvas = throttle(
                   left: left - 25,
                   top: top - 25
                 });
+                applyColorToFabricElement(configColors.itemColors[0], clone);
                 fabricCanvas && fabricCanvas.add(clone);
               };
             })(item.top, item.left)
