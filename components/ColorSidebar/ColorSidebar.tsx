@@ -4,19 +4,24 @@ import ColorInput from "../ColorInput";
 import { Color } from "../../types";
 import s from "./ColorInput.less";
 import { Icon, Button } from "antd";
+import { colorObjToString } from "../../utils";
 
 export interface Props {
   configColors: any;
   className?: string;
   setBackgroundColor: (obj: Color) => void;
   setItemColor: (obj: { index: number; color: Color }) => void;
+  addItemColor: () => void;
+  removeItemColor: ({ index: number }) => void;
 }
 
 export const ColorSidebar: React.FC<Props> = ({
   className,
   configColors,
   setBackgroundColor,
-  setItemColor
+  setItemColor,
+  addItemColor,
+  removeItemColor
 }) => {
   return (
     <div className={classnames(s["root"], className)}>
@@ -30,15 +35,33 @@ export const ColorSidebar: React.FC<Props> = ({
         color={configColors.backgroundColor}
         setColor={setBackgroundColor}
       />
-      <ColorInput
-        color={configColors.itemColors[0]}
-        setColor={color => setItemColor({ index: 0, color })}
-      />
+      {configColors.itemColors.map((itemColor, index) => (
+        <div
+          key={`${index}-${colorObjToString(itemColor.values[0])}`}
+          className={s["color-input-wrapper"]}
+        >
+          <ColorInput
+            color={itemColor}
+            setColor={newColor => setItemColor({ index, color: newColor })}
+          />
+          {index > 0 && (
+            <Button
+              type="dashed"
+              className={s["remove-button"]}
+              size="small"
+              shape="circle"
+              icon="close"
+              onClick={() => removeItemColor({ index })}
+            />
+          )}
+        </div>
+      ))}
       <Button
         type="dashed"
         className={s["plus-button"]}
         shape="circle"
         icon="plus"
+        onClick={addItemColor}
       />
     </div>
   );

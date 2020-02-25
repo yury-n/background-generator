@@ -12,3 +12,22 @@
 .plus-button {
   background: transparent;
 }
+
+.color-input-wrapper {
+  position: relative;
+  &:hover {
+    .remove-button {
+      opacity: 1;
+    }
+  }
+}
+
+.remove-button {
+  position: absolute;
+  right: 40px;
+  top: 4px;
+  background: transparent;
+  border: none;
+  opacity: 0;
+  transition: opacity 300ms;
+}

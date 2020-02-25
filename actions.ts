@@ -13,6 +13,11 @@ export const setItemColor = createAction<{ index: number; color: Color }>(
   "SET_ITEM_COLOR"
 );
 
+export const addItemColor = createAction("ADD_ITEM_COLOR");
+export const removeItemColor = createAction<{ index: number }>(
+  "REMOVE_BACKGROUND_COLOR"
+);
+
 export const setConfigValue = createAction<{
   configKey: string;
   configValue: any;

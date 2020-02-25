@@ -5,7 +5,9 @@ import {
   setBackgroundColor,
   setConfigValue,
   refreshRandomSnapshot,
-  setItemColor
+  setItemColor,
+  addItemColor,
+  removeItemColor
 } from "./actions";
 import { FillType } from "./types";
 
@@ -62,6 +64,33 @@ const reducer = handleActions<AppState, any>(
         configColors: {
           ...state.configColors,
           itemColors: newItemColors
+        }
+      };
+    },
+    [addItemColor.toString()]: state => {
+      const { itemColors } = state.configColors;
+      const newItemColors = [...itemColors, itemColors[itemColors.length - 1]];
+
+      return {
+        ...state,
+        configColors: {
+          ...state.configColors,
+          itemColors: newItemColors
+        }
+      };
+    },
+    [removeItemColor.toString()]: (
+      state,
+      action: ReturnType<typeof removeItemColor>
+    ) => {
+      return {
+        ...state,
+        configColors: {
+          ...state.configColors,
+          itemColors: [...state.configColors.itemColors].splice(
+            action.payload.index,
+            1
+          )
         }
       };
     },
