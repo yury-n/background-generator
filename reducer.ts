@@ -83,14 +83,13 @@ const reducer = handleActions<AppState, any>(
       state,
       action: ReturnType<typeof removeItemColor>
     ) => {
+      const newItemColors = [...state.configColors.itemColors];
+      newItemColors.splice(action.payload.index, 1);
       return {
         ...state,
         configColors: {
           ...state.configColors,
-          itemColors: [...state.configColors.itemColors].splice(
-            action.payload.index,
-            1
-          )
+          itemColors: newItemColors
         }
       };
     },

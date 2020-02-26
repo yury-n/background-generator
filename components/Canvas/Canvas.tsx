@@ -136,7 +136,6 @@ const redrawCanvas = throttle(
     window["fabric"].loadSVGFromURL(
       window["loadedFile"] ? window["loadedFile"].imageUrl : "/svgs/1.svg",
       function(objects, options) {
-        console.log({ objects });
         objects[0].fill.colorStops[1].color = "rgb(255,255,255)";
         var obj = window["fabric"].util.groupSVGElements(objects, options);
         items.forEach(item =>
@@ -170,7 +169,6 @@ const getScaleToFullyFit = ({ width, height, maxWidth, maxHeight }) => {
   if (height && height > maxHeight) {
     scaleToFitHeight = maxHeight / height;
   }
-  console.log({ scaleToFitWidth, scaleToFitHeight });
   const scaleToFullyFit = Math.min(scaleToFitWidth, scaleToFitHeight);
   return scaleToFullyFit;
 };
