@@ -9,7 +9,7 @@ import s from "./RandomnessInput.less";
 
 export interface Props {
   boolFlagName: string;
-  strengthFlagName: string;
+  strengthFlagName?: string;
 }
 
 export const RandomnessInput: React.FC<Props> = ({
@@ -46,7 +46,9 @@ export const RandomnessInput: React.FC<Props> = ({
           </Button>
         )}
       </div>
-      {withRandomness && <NumberInput configKey={strengthFlagName} />}
+      {withRandomness && strengthFlagName && (
+        <NumberInput configKey={strengthFlagName} />
+      )}
     </>
   );
 };

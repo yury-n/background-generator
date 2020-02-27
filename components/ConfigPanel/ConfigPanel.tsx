@@ -64,6 +64,9 @@ export const ConfigPanel: React.FC<Props> = props => {
             strengthFlagName="randomizePositionStrength"
           />
         </Form.Item>
+        <Form.Item label="Randomize Color">
+          <RandomnessInput boolFlagName="withRandomColor" />
+        </Form.Item>
       </Form>
     </Sider>
   );

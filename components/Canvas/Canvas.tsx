@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Head from "next/head";
 import throttle from "lodash.throttle";
+import random from "lodash.random";
 import { colorObjToString, angle2rect } from "../../utils";
 import layouts from "../../layouts";
 
@@ -136,8 +137,8 @@ const redrawCanvas = throttle(
     window["fabric"].loadSVGFromURL(
       window["loadedFile"] ? window["loadedFile"].imageUrl : "/svgs/1.svg",
       function(objects, options) {
-        objects[0].fill.colorStops[1].color = "rgb(255,255,255)";
-        var obj = window["fabric"].util.groupSVGElements(objects, options);
+        let currentColorIndex = 0;
+        const obj = window["fabric"].util.groupSVGElements(objects, options);
         items.forEach(item =>
           obj.clone(
             (function(top, left) {
@@ -147,8 +148,25 @@ const redrawCanvas = throttle(
                   left: left - 25,
                   top: top - 25
                 });
-                applyColorToFabricElement(configColors.itemColors[0], clone);
+                applyColorToFabricElement(
+                  configColors.itemColors[currentColorIndex],
+                  clone
+                );
                 fabricCanvas && fabricCanvas.add(clone);
+                if (configColors.itemColors.length === 1) {
+                  return;
+                }
+                if (configValues.withRandomColor) {
+                  currentColorIndex = random(
+                    0,
+                    configColors.itemColors.length - 1
+                  );
+                } else {
+                  currentColorIndex++;
+                  if (currentColorIndex > configColors.itemColors.length - 1) {
+                    currentColorIndex = 0;
+                  }
+                }
               };
             })(item.top, item.left)
           )
