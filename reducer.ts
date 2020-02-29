@@ -7,7 +7,9 @@ import {
   refreshRandomSnapshot,
   setItemColor,
   addItemColor,
-  removeItemColor
+  removeItemColor,
+  selectItem,
+  deselectItem
 } from "./actions";
 import { FillType } from "./types";
 
@@ -25,6 +27,8 @@ export const initState: AppState = {
     withRandomPosition: false,
     randomizePositionStrength: 10
   },
+  selectedLayout: 0,
+  selectedItems: [3],
   currentRandomSnapshot: Math.random()
 };
 
@@ -112,7 +116,24 @@ const reducer = handleActions<AppState, any>(
         ...state.configValues,
         currentRandomSnapshot: Math.random()
       }
-    })
+    }),
+    [selectItem.toString()]: (state, action: ReturnType<typeof selectItem>) => {
+      return {
+        ...state,
+        selectedItems: [...state.selectedItems, action.payload.id]
+      };
+    },
+    [deselectItem.toString()]: (
+      state,
+      action: ReturnType<typeof deselectItem>
+    ) => {
+      return {
+        ...state,
+        selectedItems: state.selectedItems.filter(
+          itemId => itemId !== action.payload.id
+        )
+      };
+    }
   },
   initState
 );

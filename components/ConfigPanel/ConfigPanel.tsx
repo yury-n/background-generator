@@ -6,8 +6,7 @@ import BorderFrame from "../BorderFrame";
 import s from "./ConfigPanel.less";
 import NumberInput from "./NumberInput";
 import RandomnessInput from "./RandomnessInput";
-import ImageUpload from "./ImageUpload";
-import items from "../../items";
+import Items from "./Items";
 
 export interface Props {}
 
@@ -31,21 +30,7 @@ export const ConfigPanel: React.FC<Props> = props => {
             </Button>
           </Divider>
         </Form.Item>
-        <Form.Item label="Items" className={s["form-item-with-show-more"]}>
-          <div className={s["layout-items"]}>
-            <ImageUpload />
-            {items.map((item, index) => (
-              <BorderFrame key={index} className={classnames(s["item-thumb"])}>
-                <img src={item.src} alt="image.png" />
-              </BorderFrame>
-            ))}
-          </div>
-          <Divider>
-            <Button type="link" icon="down" className={s["show-more"]}>
-              Show More
-            </Button>
-          </Divider>
-        </Form.Item>
+        <Items />
         <Form.Item label="Item Size">
           <NumberInput configKey="itemSize" />
         </Form.Item>

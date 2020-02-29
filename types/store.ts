@@ -9,4 +9,6 @@ export interface AppState {
   };
   configValues: any;
   currentRandomSnapshot: number;
+  selectedLayout: number;
+  selectedItems: number[];
 }

@@ -4,6 +4,7 @@ import throttle from "lodash.throttle";
 import random from "lodash.random";
 import { colorObjToString, angle2rect } from "../../utils";
 import layouts from "../../layouts";
+import itemSVGs from "../../items";
 
 import s from "./Canvas.less";
 import { FillType } from "../../types";
@@ -13,13 +14,15 @@ export interface Props {
   height: number;
   configValues: any;
   configColors: any;
+  selectedItems: number[];
 }
 
 export const Canvas: React.FC<Props> = ({
   width,
   height,
   configValues,
-  configColors
+  configColors,
+  selectedItems
 }) => {
   const canvasContainer = useRef<HTMLDivElement>();
 
@@ -29,6 +32,7 @@ export const Canvas: React.FC<Props> = ({
       height,
       configColors,
       configValues,
+      selectedItems,
       canvasContainer,
       redrawCanvas
     });
@@ -37,6 +41,7 @@ export const Canvas: React.FC<Props> = ({
     height,
     configColors,
     configValues,
+    selectedItems,
     canvasContainer,
     redrawCanvas
   ]);
@@ -96,7 +101,14 @@ const applyColorToFabricElement = (color, elem) => {
 };
 
 const redrawCanvas = throttle(
-  ({ width, height, configColors, configValues, canvasContainer }) => {
+  ({
+    width,
+    height,
+    configColors,
+    configValues,
+    selectedItems,
+    canvasContainer
+  }) => {
     if (!window["fabric"] || !canvasContainer.current) {
       return;
     }
@@ -134,8 +146,14 @@ const redrawCanvas = throttle(
 
     const items = layout.generate(width, height, configValues);
 
+    const selectedItemSVGs = selectedItems.map(itemId =>
+      itemSVGs.find(item => item.id === itemId)
+    );
+
     window["fabric"].loadSVGFromURL(
-      window["loadedFile"] ? window["loadedFile"].imageUrl : "/svgs/1.svg",
+      window["loadedFile"]
+        ? window["loadedFile"].imageUrl
+        : selectedItemSVGs[0].src,
       function(objects, options) {
         let currentColorIndex = 0;
         const obj = window["fabric"].util.groupSVGElements(objects, options);

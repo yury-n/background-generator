@@ -18,6 +18,9 @@ export const removeItemColor = createAction<{ index: number }>(
   "REMOVE_BACKGROUND_COLOR"
 );
 
+export const selectItem = createAction<{ id: number }>("SELECT_ITEM");
+export const deselectItem = createAction<{ id: number }>("DESELECT_ITEM");
+
 export const setConfigValue = createAction<{
   configKey: string;
   configValue: any;
