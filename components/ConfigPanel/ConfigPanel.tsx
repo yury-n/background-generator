@@ -7,6 +7,7 @@ import s from "./ConfigPanel.less";
 import NumberInput from "./NumberInput";
 import RandomnessInput from "./RandomnessInput";
 import ImageUpload from "./ImageUpload";
+import items from "../../items";
 
 export interface Props {}
 
@@ -25,27 +26,23 @@ export const ConfigPanel: React.FC<Props> = props => {
             </BorderFrame>
           </div>
           <Divider>
-            <Button type="link" icon="down">
-              Show more
+            <Button type="link" icon="down" className={s["show-more"]}>
+              Show More
             </Button>
           </Divider>
         </Form.Item>
-        <Form.Item label="Item" className={s["form-item-with-show-more"]}>
+        <Form.Item label="Items" className={s["form-item-with-show-more"]}>
           <div className={s["layout-items"]}>
             <ImageUpload />
-            <BorderFrame className={classnames(s["item-thumb"])}>
-              <img src="/item_thumb/2.svg" alt="image.png" />
-            </BorderFrame>
-            <BorderFrame className={classnames(s["item-thumb"])}>
-              <img src="/item_thumb/1.svg" alt="image.png" />
-            </BorderFrame>
-            <BorderFrame isActive className={classnames(s["item-thumb"])}>
-              <img src="/item_thumb/3.svg" alt="image.png" />
-            </BorderFrame>
+            {items.map((item, index) => (
+              <BorderFrame key={index} className={classnames(s["item-thumb"])}>
+                <img src={item.src} alt="image.png" />
+              </BorderFrame>
+            ))}
           </div>
           <Divider>
-            <Button type="link" icon="down">
-              Show more
+            <Button type="link" icon="down" className={s["show-more"]}>
+              Show More
             </Button>
           </Divider>
         </Form.Item>

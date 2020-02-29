@@ -25,12 +25,7 @@ export const ColorSidebar: React.FC<Props> = ({
 }) => {
   return (
     <div className={classnames(s["root"], className)}>
-      <Button
-        type="dashed"
-        className={s["plus-button"]}
-        shape="circle"
-        icon="appstore"
-      />
+      <Button className={s["palette-button"]} shape="circle" icon="appstore" />
       <ColorInput
         color={configColors.backgroundColor}
         setColor={setBackgroundColor}
@@ -43,7 +38,6 @@ export const ColorSidebar: React.FC<Props> = ({
           />
           {index > 0 && (
             <Button
-              type="dashed"
               className={s["remove-button"]}
               size="small"
               shape="circle"
@@ -54,7 +48,6 @@ export const ColorSidebar: React.FC<Props> = ({
         </div>
       ))}
       <Button
-        type="dashed"
         className={s["plus-button"]}
         shape="circle"
         icon="plus"
