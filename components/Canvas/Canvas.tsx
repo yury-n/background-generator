@@ -114,6 +114,27 @@ const redrawCanvas = throttle(
     }
 
     const layout = layouts.find(l => l.id === 1);
+    const layoutItems = layout.generate(width, height, configValues);
+
+    const selectedObjects = selectedItems.map(itemId =>
+      itemSVGs.find(item => item.id === itemId)
+    );
+    const loadedFabricObjects = {};
+    let loadedFabricObjectsCount = 0;
+    selectedObjects.map(selectedObject => {
+      window["fabric"].loadSVGFromURL(selectedObject.src, function(
+        objects,
+        options
+      ) {
+        const obj = window["fabric"].util.groupSVGElements(objects, options);
+        loadedFabricObjects[selectedObject.id] = obj;
+        loadedFabricObjectsCount++;
+        if (loadedFabricObjectsCount === selectedObjects.length) {
+          renderLayoutItems();
+        }
+      });
+    });
+    // window["loadedFile"] ? window["loadedFile"].imageUrl
 
     const containerRect = canvasContainer.current.getBoundingClientRect();
 
@@ -144,54 +165,49 @@ const redrawCanvas = throttle(
     window["rect"] = rect;
     fabricCanvas.add(rect);
 
-    const items = layout.generate(width, height, configValues);
+    const renderLayoutItems = () => {
+      let currentColorIndex = 0;
+      let currentObjectIndex = 0;
+      layoutItems.forEach(item =>
+        loadedFabricObjects[selectedObjects[currentObjectIndex].id].clone(
+          (function(top, left) {
+            return function(clone) {
+              clone.scaleToWidth(50);
+              clone.set({
+                left: left - 25,
+                top: top - 25
+              });
+              applyColorToFabricElement(
+                configColors.itemColors[currentColorIndex],
+                clone
+              );
+              fabricCanvas && fabricCanvas.add(clone);
 
-    const selectedItemSVGs = selectedItems.map(itemId =>
-      itemSVGs.find(item => item.id === itemId)
-    );
+              currentObjectIndex++;
+              if (currentObjectIndex > selectedObjects.length - 1) {
+                currentObjectIndex = 0;
+              }
 
-    window["fabric"].loadSVGFromURL(
-      window["loadedFile"]
-        ? window["loadedFile"].imageUrl
-        : selectedItemSVGs[0].src,
-      function(objects, options) {
-        let currentColorIndex = 0;
-        const obj = window["fabric"].util.groupSVGElements(objects, options);
-        items.forEach(item =>
-          obj.clone(
-            (function(top, left) {
-              return function(clone) {
-                clone.scaleToWidth(50);
-                clone.set({
-                  left: left - 25,
-                  top: top - 25
-                });
-                applyColorToFabricElement(
-                  configColors.itemColors[currentColorIndex],
-                  clone
+              if (configColors.itemColors.length === 1) {
+                return;
+              }
+              if (configValues.withRandomColor) {
+                currentColorIndex = random(
+                  0,
+                  configColors.itemColors.length - 1
                 );
-                fabricCanvas && fabricCanvas.add(clone);
-                if (configColors.itemColors.length === 1) {
-                  return;
+              } else {
+                currentColorIndex++;
+                if (currentColorIndex > configColors.itemColors.length - 1) {
+                  currentColorIndex = 0;
                 }
-                if (configValues.withRandomColor) {
-                  currentColorIndex = random(
-                    0,
-                    configColors.itemColors.length - 1
-                  );
-                } else {
-                  currentColorIndex++;
-                  if (currentColorIndex > configColors.itemColors.length - 1) {
-                    currentColorIndex = 0;
-                  }
-                }
-              };
-            })(item.top, item.left)
-          )
-        );
-        fabricCanvas && fabricCanvas.renderAll();
-      }
-    );
+              }
+            };
+          })(item.top, item.left)
+        )
+      );
+      fabricCanvas && fabricCanvas.renderAll();
+    };
   },
   100
 );
