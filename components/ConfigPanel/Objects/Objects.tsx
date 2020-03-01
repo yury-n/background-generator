@@ -1,29 +1,29 @@
 import React from "react";
 import classnames from "classnames";
-import items from "../../../items";
+import objects from "../../../objects";
 import ImageUpload from "./ImageUpload";
 import { Form, Button, Divider } from "antd";
 import BorderFrame from "../../BorderFrame";
 
-import s from "./Items.less";
+import s from "./Objects.less";
 
 export interface Props {
-  selectedItems: number[];
-  selectItem: ({ id: number }) => void;
-  deselectItem: ({ id: number }) => void;
+  selectedObjectIds: number[];
+  selectObject: ({ id: number }) => void;
+  deselectObject: ({ id: number }) => void;
 }
 
-export const Items: React.FC<Props> = ({
-  selectedItems,
-  selectItem,
-  deselectItem
+export const Objects: React.FC<Props> = ({
+  selectedObjectIds,
+  selectObject,
+  deselectObject
 }) => {
   return (
-    <Form.Item label="Items" className={s["form-item-with-show-more"]}>
+    <Form.Item label="Objects" className={s["form-item-with-show-more"]}>
       <div className={s["layout-items"]}>
         <ImageUpload />
-        {items.map((item, index) => {
-          const isSelected = selectedItems.includes(item.id);
+        {objects.map((object, index) => {
+          const isSelected = selectedObjectIds.includes(object.id);
           return (
             <BorderFrame
               isActive={isSelected}
@@ -31,11 +31,11 @@ export const Items: React.FC<Props> = ({
               className={classnames(s["item-thumb"])}
               onClick={() =>
                 isSelected
-                  ? deselectItem({ id: item.id })
-                  : selectItem({ id: item.id })
+                  ? deselectObject({ id: object.id })
+                  : selectObject({ id: object.id })
               }
             >
-              <img src={item.src} alt="image.png" />
+              <img src={object.src} alt="image.png" />
             </BorderFrame>
           );
         })}
@@ -48,6 +48,6 @@ export const Items: React.FC<Props> = ({
     </Form.Item>
   );
 };
-Items.displayName = "Items";
+Objects.displayName = "Objects";
 
-export default Items;
+export default Objects;

@@ -4,17 +4,17 @@ import throttle from "lodash.throttle";
 import random from "lodash.random";
 import { colorObjToString, angle2rect } from "../../utils";
 import layouts from "../../layouts";
-import itemSVGs from "../../items";
+import objects from "../../objects";
+import { FillType } from "../../types";
 
 import s from "./Canvas.less";
-import { FillType } from "../../types";
 
 export interface Props {
   width: number;
   height: number;
   configValues: any;
   configColors: any;
-  selectedItems: number[];
+  selectedObjectIds: number[];
 }
 
 export const Canvas: React.FC<Props> = ({
@@ -22,7 +22,7 @@ export const Canvas: React.FC<Props> = ({
   height,
   configValues,
   configColors,
-  selectedItems
+  selectedObjectIds
 }) => {
   const canvasContainer = useRef<HTMLDivElement>();
 
@@ -32,7 +32,7 @@ export const Canvas: React.FC<Props> = ({
       height,
       configColors,
       configValues,
-      selectedItems,
+      selectedObjectIds,
       canvasContainer,
       redrawCanvas
     });
@@ -41,7 +41,7 @@ export const Canvas: React.FC<Props> = ({
     height,
     configColors,
     configValues,
-    selectedItems,
+    selectedObjectIds,
     canvasContainer,
     redrawCanvas
   ]);
@@ -106,7 +106,7 @@ const redrawCanvas = throttle(
     height,
     configColors,
     configValues,
-    selectedItems,
+    selectedObjectIds,
     canvasContainer
   }) => {
     if (!window["fabric"] || !canvasContainer.current) {
@@ -116,8 +116,8 @@ const redrawCanvas = throttle(
     const layout = layouts.find(l => l.id === 1);
     const layoutItems = layout.generate(width, height, configValues);
 
-    const selectedObjects = selectedItems.map(itemId =>
-      itemSVGs.find(item => item.id === itemId)
+    const selectedObjects = selectedObjectIds.map(id =>
+      objects.find(item => item.id === id)
     );
     const loadedFabricObjects = {};
     let loadedFabricObjectsCount = 0;
@@ -178,28 +178,36 @@ const redrawCanvas = throttle(
                 top: top - 25
               });
               applyColorToFabricElement(
-                configColors.itemColors[currentColorIndex],
+                configColors.objectColors[currentColorIndex],
                 clone
               );
               fabricCanvas && fabricCanvas.add(clone);
 
-              currentObjectIndex++;
-              if (currentObjectIndex > selectedObjects.length - 1) {
-                currentObjectIndex = 0;
+              if (selectedObjects.length > 0) {
+                if (configValues.withRandomObjectOrder) {
+                  currentObjectIndex = random(0, selectedObjects.length - 1);
+                } else {
+                  currentObjectIndex++;
+                  if (currentObjectIndex > selectedObjects.length - 1) {
+                    currentObjectIndex = 0;
+                  }
+                }
               }
 
-              if (configColors.itemColors.length === 1) {
-                return;
-              }
-              if (configValues.withRandomColor) {
-                currentColorIndex = random(
-                  0,
-                  configColors.itemColors.length - 1
-                );
-              } else {
-                currentColorIndex++;
-                if (currentColorIndex > configColors.itemColors.length - 1) {
-                  currentColorIndex = 0;
+              if (configColors.objectColors.length > 0) {
+                if (configValues.withRandomColor) {
+                  currentColorIndex = random(
+                    0,
+                    configColors.objectColors.length - 1
+                  );
+                } else {
+                  currentColorIndex++;
+                  if (
+                    currentColorIndex >
+                    configColors.objectColors.length - 1
+                  ) {
+                    currentColorIndex = 0;
+                  }
                 }
               }
             };

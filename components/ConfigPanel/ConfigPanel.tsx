@@ -6,11 +6,17 @@ import BorderFrame from "../BorderFrame";
 import s from "./ConfigPanel.less";
 import NumberInput from "./NumberInput";
 import RandomnessInput from "./RandomnessInput";
-import Items from "./Items";
+import Objects from "./Objects";
 
-export interface Props {}
+export interface Props {
+  selectedObjectCount: number;
+  objectColorCount: number;
+}
 
-export const ConfigPanel: React.FC<Props> = props => {
+export const ConfigPanel: React.FC<Props> = ({
+  selectedObjectCount,
+  objectColorCount
+}) => {
   return (
     <Sider className={s["sider"]} width={330}>
       <h1 className={s["logo"]}>
@@ -30,11 +36,11 @@ export const ConfigPanel: React.FC<Props> = props => {
             </Button>
           </Divider>
         </Form.Item>
-        <Items />
-        <Form.Item label="Item Size">
+        <Objects />
+        <Form.Item label="Object Size">
           <NumberInput configKey="itemSize" />
         </Form.Item>
-        <Form.Item label="Item Count">
+        <Form.Item label="Object Count">
           <NumberInput configKey="itemCount" />
         </Form.Item>
         <Form.Item label="Padding">
@@ -46,9 +52,16 @@ export const ConfigPanel: React.FC<Props> = props => {
             strengthFlagName="randomizePositionStrength"
           />
         </Form.Item>
-        <Form.Item label="Randomize Color">
-          <RandomnessInput boolFlagName="withRandomColor" />
-        </Form.Item>
+        {objectColorCount > 1 && (
+          <Form.Item label="Randomize Color">
+            <RandomnessInput boolFlagName="withRandomColor" />
+          </Form.Item>
+        )}
+        {selectedObjectCount > 1 && (
+          <Form.Item label="Randomize Object Order">
+            <RandomnessInput boolFlagName="withRandomObjectOrder" />
+          </Form.Item>
+        )}
       </Form>
     </Sider>
   );

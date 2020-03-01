@@ -1,10 +1,10 @@
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
-import { Props } from "./Canvas";
+import { Props } from "./ConfigPanel";
 import { AppState } from "../../types/store";
 
 export type StateProps = Pick<
   Props,
-  "width" | "height" | "configColors" | "configValues" | "selectedObjectIds"
+  "selectedObjectCount" | "objectColorCount"
 >;
 export type DispatchProps = Pick<Props, never>;
 export type OwnProps = Omit<Props, keyof (StateProps & DispatchProps)>;
@@ -12,11 +12,8 @@ export type OwnProps = Omit<Props, keyof (StateProps & DispatchProps)>;
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
   state: AppState
 ) => ({
-  width: state.canvasWidth,
-  height: state.canvasHeight,
-  configColors: state.configColors,
-  configValues: state.configValues,
-  selectedObjectIds: state.selectedObjectIds
+  selectedObjectCount: state.selectedObjectIds.length,
+  objectColorCount: state.configColors.objectColors.length
 });
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {};
 

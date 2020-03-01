@@ -8,8 +8,8 @@ import {
   setItemColor,
   addItemColor,
   removeItemColor,
-  selectItem,
-  deselectItem
+  selectObject,
+  deselectObject
 } from "./actions";
 import { FillType } from "./types";
 
@@ -18,7 +18,7 @@ export const initState: AppState = {
   canvasHeight: 1080,
   configColors: {
     backgroundColor: { type: FillType.Solid, values: ["#fff", "#ccc"] },
-    itemColors: [{ type: FillType.Solid, values: ["#000", "#ccc"] }]
+    objectColors: [{ type: FillType.Solid, values: ["#000", "#ccc"] }]
   },
   configValues: {
     itemCount: 50,
@@ -27,8 +27,8 @@ export const initState: AppState = {
     withRandomPosition: false,
     randomizePositionStrength: 10
   },
-  selectedLayout: 0,
-  selectedItems: [3],
+  selectedLayoutId: 0,
+  selectedObjectIds: [3],
   currentRandomSnapshot: Math.random()
 };
 
@@ -59,27 +59,30 @@ const reducer = handleActions<AppState, any>(
       state,
       action: ReturnType<typeof setItemColor>
     ) => {
-      const newItemColors = [...state.configColors.itemColors];
+      const newObjectColors = [...state.configColors.objectColors];
 
-      newItemColors[action.payload.index] = action.payload.color;
+      newObjectColors[action.payload.index] = action.payload.color;
 
       return {
         ...state,
         configColors: {
           ...state.configColors,
-          itemColors: newItemColors
+          objectColors: newObjectColors
         }
       };
     },
     [addItemColor.toString()]: state => {
-      const { itemColors } = state.configColors;
-      const newItemColors = [...itemColors, itemColors[itemColors.length - 1]];
+      const { objectColors } = state.configColors;
+      const newObjectColors = [
+        ...objectColors,
+        objectColors[objectColors.length - 1]
+      ];
 
       return {
         ...state,
         configColors: {
           ...state.configColors,
-          itemColors: newItemColors
+          objectColors: newObjectColors
         }
       };
     },
@@ -87,13 +90,13 @@ const reducer = handleActions<AppState, any>(
       state,
       action: ReturnType<typeof removeItemColor>
     ) => {
-      const newItemColors = [...state.configColors.itemColors];
-      newItemColors.splice(action.payload.index, 1);
+      const newObjectColors = [...state.configColors.objectColors];
+      newObjectColors.splice(action.payload.index, 1);
       return {
         ...state,
         configColors: {
           ...state.configColors,
-          itemColors: newItemColors
+          objectColors: newObjectColors
         }
       };
     },
@@ -117,20 +120,23 @@ const reducer = handleActions<AppState, any>(
         currentRandomSnapshot: Math.random()
       }
     }),
-    [selectItem.toString()]: (state, action: ReturnType<typeof selectItem>) => {
-      return {
-        ...state,
-        selectedItems: [...state.selectedItems, action.payload.id]
-      };
-    },
-    [deselectItem.toString()]: (
+    [selectObject.toString()]: (
       state,
-      action: ReturnType<typeof deselectItem>
+      action: ReturnType<typeof selectObject>
     ) => {
       return {
         ...state,
-        selectedItems: state.selectedItems.filter(
-          itemId => itemId !== action.payload.id
+        selectedObjectIds: [...state.selectedObjectIds, action.payload.id]
+      };
+    },
+    [deselectObject.toString()]: (
+      state,
+      action: ReturnType<typeof deselectObject>
+    ) => {
+      return {
+        ...state,
+        selectedObjectIds: state.selectedObjectIds.filter(
+          id => id !== action.payload.id
         )
       };
     }

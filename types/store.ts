@@ -5,10 +5,10 @@ export interface AppState {
   canvasHeight: number;
   configColors: {
     backgroundColor: Color;
-    itemColors: Color[];
+    objectColors: Color[];
   };
   configValues: any;
   currentRandomSnapshot: number;
-  selectedLayout: number;
-  selectedItems: number[];
+  selectedLayoutId: number;
+  selectedObjectIds: number[];
 }
