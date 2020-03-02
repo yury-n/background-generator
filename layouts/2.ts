@@ -1,7 +1,7 @@
 import random from "lodash.random";
 
 export default {
-  id: 1,
+  id: 2,
   src: "/layout_thumbs/1.png",
   generate: (width, height, configValues) => {
     const {
@@ -26,4 +26,25 @@ export default {
     }
     return items;
   }
+  //   generate: (width, height, configValues) => {
+  //     const {
+  //       paddingX,
+  //       paddingY,
+  //       columnCount,
+  //       rowCount,
+  //       itemSize
+  //     } = configValues;
+
+  //     const px = (width - 2 * paddingX - itemSize) / columnCount;
+  //     const py = (height - 2 * paddingY - itemSize) / rowCount;
+  //     const items = [];
+  //     for (let i = 0; i <= columnCount; i++) {
+  //       for (let j = 0; j <= rowCount; j++) {
+  //         const top = paddingY + j * py;
+  //         const left = paddingX + i * px;
+  //         items.push({ top: top, left: left, width: itemSize, height: itemSize });
+  //       }
+  //     }
+  //     return items;
+  //   }
 };

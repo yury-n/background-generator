@@ -1,12 +1,12 @@
 import React from "react";
-import classnames from "classnames";
-import { Icon, Form, Layout, Button, Divider } from "antd";
+import { Icon, Form, Layout } from "antd";
 const { Sider } = Layout;
-import BorderFrame from "../BorderFrame";
-import s from "./ConfigPanel.less";
 import NumberInput from "./NumberInput";
 import RandomnessInput from "./RandomnessInput";
 import Objects from "./Objects";
+import Layouts from "./Layouts";
+
+import s from "./ConfigPanel.less";
 
 export interface Props {
   selectedObjectCount: number;
@@ -24,18 +24,7 @@ export const ConfigPanel: React.FC<Props> = ({
         <a href="/">Background Generator</a>
       </h1>
       <Form layout="vertical" className={s["form"]}>
-        <Form.Item label="Layouts" className={s["form-item-with-show-more"]}>
-          <div className={s["layouts"]}>
-            <BorderFrame isActive className={classnames(s["layout-thumb"])}>
-              <img src="/layout_thumbs/1.png" alt="image.png" />
-            </BorderFrame>
-          </div>
-          <Divider>
-            <Button type="link" icon="down" className={s["show-more"]}>
-              Show More
-            </Button>
-          </Divider>
-        </Form.Item>
+        <Layouts />
         <Objects />
         <Form.Item label="Object Size">
           <NumberInput configKey="itemSize" />
@@ -43,7 +32,7 @@ export const ConfigPanel: React.FC<Props> = ({
         <Form.Item label="Object Count">
           <NumberInput configKey="itemCount" />
         </Form.Item>
-        <Form.Item label="Padding">
+        <Form.Item label="Padding %">
           <NumberInput configKey="padding" />
         </Form.Item>
         <Form.Item label="Randomize Position">

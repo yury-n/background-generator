@@ -21,6 +21,8 @@ export const removeItemColor = createAction<{ index: number }>(
 export const selectObject = createAction<{ id: number }>("SELECT_OBJECT");
 export const deselectObject = createAction<{ id: number }>("DESELECT_OBJECT");
 
+export const selectLayout = createAction<{ id: number }>("SELECT_LAYOUT");
+
 export const setConfigValue = createAction<{
   configKey: string;
   configValue: any;

@@ -9,7 +9,8 @@ import {
   addItemColor,
   removeItemColor,
   selectObject,
-  deselectObject
+  deselectObject,
+  selectLayout
 } from "./actions";
 import { FillType } from "./types";
 
@@ -27,7 +28,7 @@ export const initState: AppState = {
     withRandomPosition: false,
     randomizePositionStrength: 10
   },
-  selectedLayoutId: 0,
+  selectedLayoutId: 1,
   selectedObjectIds: [3],
   currentRandomSnapshot: Math.random()
 };
@@ -138,6 +139,15 @@ const reducer = handleActions<AppState, any>(
         selectedObjectIds: state.selectedObjectIds.filter(
           id => id !== action.payload.id
         )
+      };
+    },
+    [selectLayout.toString()]: (
+      state,
+      action: ReturnType<typeof selectLayout>
+    ) => {
+      return {
+        ...state,
+        selectedLayoutId: action.payload.id
       };
     }
   },
