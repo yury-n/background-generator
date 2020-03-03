@@ -27,10 +27,10 @@ export const ConfigPanel: React.FC<Props> = ({
         <Layouts />
         <Objects />
         <Form.Item label="Object Size">
-          <NumberInput configKey="itemSize" />
+          <NumberInput configKey="objectSize" />
         </Form.Item>
-        <Form.Item label="Object Count">
-          <NumberInput configKey="itemCount" />
+        <Form.Item label="Object Distance">
+          <NumberInput configKey="objectDistance" />
         </Form.Item>
         <Form.Item label="Padding %">
           <NumberInput configKey="padding" />

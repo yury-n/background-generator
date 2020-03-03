@@ -14,21 +14,24 @@ export const NumberInput: React.FC<Props> = ({ configKey }) => {
   const dispatch = useDispatch();
   const configValue = useSelector(getConfigValue(configKey), shallowEqual);
 
+  const setConfigValueFromInput = e =>
+    dispatch(
+      setConfigValue({
+        configKey,
+        configValue: +e.target.value
+      })
+    );
+
   return (
     <div className={s["config-input-wrapper"]}>
       <Input
         min={1}
         max={20}
+        key={configValue}
         defaultValue={configValue}
         className={s["config-input"]}
-        onBlur={e =>
-          dispatch(
-            setConfigValue({
-              configKey,
-              configValue: +e.currentTarget.value
-            })
-          )
-        }
+        onBlur={setConfigValueFromInput}
+        onPressEnter={setConfigValueFromInput}
       />
       <Slider
         min={1}

@@ -22,8 +22,8 @@ export const initState: AppState = {
     objectColors: [{ type: FillType.Solid, values: ["#000", "#ccc"] }]
   },
   configValues: {
-    itemCount: 50,
-    itemSize: 2,
+    objectDistance: 50,
+    objectSize: 2,
     padding: 10,
     withRandomPosition: false,
     randomizePositionStrength: 10

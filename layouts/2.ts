@@ -7,11 +7,11 @@ export default {
     const {
       withRandomPosition,
       randomizePositionStrength,
-      itemCount
+      objectCount
     } = configValues;
 
     const totalArea = width * height;
-    const pointArea = totalArea / itemCount;
+    const pointArea = totalArea / objectCount;
     const length = Math.sqrt(pointArea);
 
     const randPower = withRandomPosition ? randomizePositionStrength / 10 : 0;

@@ -113,8 +113,15 @@ const redrawCanvas = throttle(
       return;
     }
 
+    const paddingX = width * (configValues.padding / 100);
+    const paddingY = height * (configValues.padding / 100);
+
     const layout = layouts.find(l => l.id === 1);
-    const layoutItems = layout.generate(width, height, configValues);
+    const layoutItems = layout.generate(
+      width - 2 * paddingX,
+      height - 2 * paddingY,
+      configValues
+    );
 
     const selectedObjects = selectedObjectIds.map(id =>
       objects.find(item => item.id === id)
@@ -172,10 +179,10 @@ const redrawCanvas = throttle(
         loadedFabricObjects[selectedObjects[currentObjectIndex].id].clone(
           (function(top, left) {
             return function(clone) {
-              clone.scaleToWidth(50);
+              clone.scaleToWidth(configValues.objectSize);
               clone.set({
-                left: left - 25,
-                top: top - 25
+                left: paddingX + left - configValues.objectSize / 2,
+                top: paddingY + top - configValues.objectSize / 2
               });
               applyColorToFabricElement(
                 configColors.objectColors[currentColorIndex],
