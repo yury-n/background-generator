@@ -3,6 +3,7 @@ import random from "lodash.random";
 export default {
   id: 2,
   src: "/layout_thumbs/1.png",
+  configFields: [],
   generate: (width, height, configValues) => {
     const {
       withRandomPosition,

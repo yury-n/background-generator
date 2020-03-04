@@ -2,9 +2,9 @@ import React from "react";
 import classnames from "classnames";
 import ColorInput from "../ColorInput";
 import { Color } from "../../types";
-import s from "./ColorInput.less";
-import { Icon, Button } from "antd";
-import { colorObjToString } from "../../utils";
+import { Button } from "antd";
+
+import s from "./ColorSidebar.less";
 
 export interface Props {
   configColors: any;

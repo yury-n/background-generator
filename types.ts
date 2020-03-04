@@ -13,3 +13,8 @@ export type Color = {
   xShift?: number;
   yShift?: number;
 };
+
+export enum ConfigFieldType {
+  NumberInput = "NumberInput",
+  RandomnessInput = "RandomnessInput"
+}

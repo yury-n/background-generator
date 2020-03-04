@@ -7,15 +7,18 @@ import Objects from "./Objects";
 import Layouts from "./Layouts";
 
 import s from "./ConfigPanel.less";
+import { ConfigFieldType } from "../../types";
 
 export interface Props {
   selectedObjectCount: number;
   objectColorCount: number;
+  configFields: any[];
 }
 
 export const ConfigPanel: React.FC<Props> = ({
   selectedObjectCount,
-  objectColorCount
+  objectColorCount,
+  configFields
 }) => {
   return (
     <Sider className={s["sider"]} width={330}>
@@ -26,29 +29,31 @@ export const ConfigPanel: React.FC<Props> = ({
       <Form layout="vertical" className={s["form"]}>
         <Layouts />
         <Objects />
-        <Form.Item label="Object Size">
-          <NumberInput configKey="objectSize" />
-        </Form.Item>
-        <Form.Item label="Object Distance">
-          <NumberInput configKey="objectDistance" />
-        </Form.Item>
-        <Form.Item label="Padding %">
-          <NumberInput configKey="padding" />
-        </Form.Item>
-        <Form.Item label="Randomize Position">
-          <RandomnessInput
-            boolFlagName="withRandomPosition"
-            strengthFlagName="randomizePositionStrength"
-          />
-        </Form.Item>
+        {configFields.map(configField => {
+          let formField;
+          switch (configField.type) {
+            case ConfigFieldType.NumberInput:
+              formField = <NumberInput configFieldName={configField.name} />;
+              break;
+            case ConfigFieldType.RandomnessInput:
+              formField = (
+                <RandomnessInput
+                  boolConfigFieldName={configField.name}
+                  strengthConfigFieldName={configField.strengthConfigFieldName}
+                />
+              );
+              break;
+          }
+          return <Form.Item label={configField.label}>{formField}</Form.Item>;
+        })}
         {objectColorCount > 1 && (
           <Form.Item label="Randomize Color">
-            <RandomnessInput boolFlagName="withRandomColor" />
+            <RandomnessInput boolConfigFieldName="withRandomColor" />
           </Form.Item>
         )}
         {selectedObjectCount > 1 && (
           <Form.Item label="Randomize Object Order">
-            <RandomnessInput boolFlagName="withRandomObjectOrder" />
+            <RandomnessInput boolConfigFieldName="withRandomObjectOrder" />
           </Form.Item>
         )}
       </Form>

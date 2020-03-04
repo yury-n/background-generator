@@ -1,23 +1,30 @@
 import React from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { Input, Slider } from "antd";
-import { getConfigValue } from "../../../selectors";
+import { getConfigValue, getConfigField } from "../../../selectors";
 import { setConfigValue } from "../../../actions";
 
 import s from "./NumberInput.less";
 
 export interface Props {
-  configKey: string;
+  configFieldName: string;
 }
 
-export const NumberInput: React.FC<Props> = ({ configKey }) => {
+export const NumberInput: React.FC<Props> = ({ configFieldName }) => {
   const dispatch = useDispatch();
-  const configValue = useSelector(getConfigValue(configKey), shallowEqual);
+  const configValue = useSelector(
+    getConfigValue(configFieldName),
+    shallowEqual
+  );
+  const configField = useSelector(
+    getConfigField(configFieldName),
+    shallowEqual
+  );
 
   const setConfigValueFromInput = e =>
     dispatch(
       setConfigValue({
-        configKey,
+        configFieldName,
         configValue: +e.target.value
       })
     );
@@ -25,8 +32,6 @@ export const NumberInput: React.FC<Props> = ({ configKey }) => {
   return (
     <div className={s["config-input-wrapper"]}>
       <Input
-        min={1}
-        max={20}
         key={configValue}
         defaultValue={configValue}
         className={s["config-input"]}
@@ -34,13 +39,13 @@ export const NumberInput: React.FC<Props> = ({ configKey }) => {
         onPressEnter={setConfigValueFromInput}
       />
       <Slider
-        min={1}
-        max={100}
+        min={configField.minValue}
+        max={configField.maxValue}
         value={configValue}
         onChange={value =>
           dispatch(
             setConfigValue({
-              configKey,
+              configFieldName,
               configValue: value
             })
           )

@@ -24,6 +24,6 @@ export const deselectObject = createAction<{ id: number }>("DESELECT_OBJECT");
 export const selectLayout = createAction<{ id: number }>("SELECT_LAYOUT");
 
 export const setConfigValue = createAction<{
-  configKey: string;
+  configFieldName: string;
   configValue: any;
 }>("SET_CONFIG_VALUE");

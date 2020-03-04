@@ -8,17 +8,17 @@ import { getConfigValue } from "../../../selectors";
 import s from "./RandomnessInput.less";
 
 export interface Props {
-  boolFlagName: string;
-  strengthFlagName?: string;
+  boolConfigFieldName: string;
+  strengthConfigFieldName?: string;
 }
 
 export const RandomnessInput: React.FC<Props> = ({
-  boolFlagName,
-  strengthFlagName
+  boolConfigFieldName,
+  strengthConfigFieldName
 }) => {
   const dispatch = useDispatch();
   const withRandomness = useSelector(
-    getConfigValue(boolFlagName),
+    getConfigValue(boolConfigFieldName),
     shallowEqual
   );
   return (
@@ -30,7 +30,7 @@ export const RandomnessInput: React.FC<Props> = ({
           onChange={() =>
             dispatch(
               setConfigValue({
-                configKey: boolFlagName,
+                configFieldName: boolConfigFieldName,
                 configValue: !withRandomness
               })
             )
@@ -46,8 +46,8 @@ export const RandomnessInput: React.FC<Props> = ({
           </Button>
         )}
       </div>
-      {withRandomness && strengthFlagName && (
-        <NumberInput configKey={strengthFlagName} />
+      {withRandomness && strengthConfigFieldName && (
+        <NumberInput configFieldName={strengthConfigFieldName} />
       )}
     </>
   );

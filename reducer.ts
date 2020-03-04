@@ -108,7 +108,7 @@ const reducer = handleActions<AppState, any>(
       ...state,
       configValues: {
         ...state.configValues,
-        [action.payload.configKey]: action.payload.configValue
+        [action.payload.configFieldName]: action.payload.configValue
       }
     }),
     [refreshRandomSnapshot.toString()]: (
