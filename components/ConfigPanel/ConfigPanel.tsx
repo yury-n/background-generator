@@ -29,7 +29,7 @@ export const ConfigPanel: React.FC<Props> = ({
       <Form layout="vertical" className={s["form"]}>
         <Layouts />
         <Objects />
-        {configFields.map(configField => {
+        {configFields.map((configField, index) => {
           let formField;
           switch (configField.type) {
             case ConfigFieldType.NumberInput:
@@ -44,7 +44,11 @@ export const ConfigPanel: React.FC<Props> = ({
               );
               break;
           }
-          return <Form.Item label={configField.label}>{formField}</Form.Item>;
+          return (
+            <Form.Item key={index} label={configField.label}>
+              {formField}
+            </Form.Item>
+          );
         })}
         {objectColorCount > 1 && (
           <Form.Item label="Randomize Color">

@@ -1,51 +1,56 @@
-import random from "lodash.random";
+import { ConfigFieldType } from "../types";
 
 export default {
   id: 2,
   src: "/layout_thumbs/1.png",
-  configFields: [],
+  configFields: [
+    {
+      name: "objectSize",
+      label: "Object Size",
+      type: ConfigFieldType.NumberInput,
+      defaultValue: 10,
+      minValue: 2,
+      maxValue: 50
+    },
+    {
+      name: "columnCount",
+      label: "Column Count",
+      type: ConfigFieldType.NumberInput,
+      defaultValue: 10,
+      minValue: 1,
+      maxValue: 50
+    },
+    {
+      name: "rowCount",
+      label: "Row Count",
+      type: ConfigFieldType.NumberInput,
+      defaultValue: 10,
+      minValue: 1,
+      maxValue: 50
+    },
+    {
+      name: "padding",
+      label: "Padding %",
+      type: ConfigFieldType.NumberInput,
+      defaultValue: 20,
+      minValue: 0,
+      maxValue: 50
+    }
+  ],
   generate: (width, height, configValues) => {
-    const {
-      withRandomPosition,
-      randomizePositionStrength,
-      objectCount
-    } = configValues;
+    const { columnCount, rowCount } = configValues;
 
-    const totalArea = width * height;
-    const pointArea = totalArea / objectCount;
-    const length = Math.sqrt(pointArea);
-
-    const randPower = withRandomPosition ? randomizePositionStrength / 10 : 0;
-
+    const px = width / columnCount;
+    const py = height / rowCount;
     const items = [];
-    for (let i = length / 2; i < width; i += length) {
-      for (let j = length / 2; j < height; j += length) {
-        const top = j + (random(0, length) - length / 2) * randPower;
-        const left = i + (random(0, length) - length / 2) * randPower;
+    for (let i = 0; i <= columnCount; i++) {
+      for (let j = 0; j <= rowCount; j++) {
+        const top = j * py;
+        const left = i * px;
         items.push({ top, left });
       }
     }
+
     return items;
   }
-  //   generate: (width, height, configValues) => {
-  //     const {
-  //       paddingX,
-  //       paddingY,
-  //       columnCount,
-  //       rowCount,
-  //       itemSize
-  //     } = configValues;
-
-  //     const px = (width - 2 * paddingX - itemSize) / columnCount;
-  //     const py = (height - 2 * paddingY - itemSize) / rowCount;
-  //     const items = [];
-  //     for (let i = 0; i <= columnCount; i++) {
-  //       for (let j = 0; j <= rowCount; j++) {
-  //         const top = paddingY + j * py;
-  //         const left = paddingX + i * px;
-  //         items.push({ top: top, left: left, width: itemSize, height: itemSize });
-  //       }
-  //     }
-  //     return items;
-  //   }
 };

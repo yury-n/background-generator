@@ -13,6 +13,7 @@ import {
   selectLayout
 } from "./actions";
 import { FillType } from "./types";
+import layouts from "./layouts";
 
 export const initState: AppState = {
   canvasWidth: 1080,
@@ -145,9 +146,17 @@ const reducer = handleActions<AppState, any>(
       state,
       action: ReturnType<typeof selectLayout>
     ) => {
+      const newConfigValues = {};
+      const newSelectedLayout = layouts.find(
+        layout => layout.id === action.payload.id
+      );
+      newSelectedLayout.configFields.forEach(configField => {
+        newConfigValues[configField.name] = configField.defaultValue;
+      });
       return {
         ...state,
-        selectedLayoutId: action.payload.id
+        selectedLayoutId: action.payload.id,
+        configValues: newConfigValues
       };
     }
   },

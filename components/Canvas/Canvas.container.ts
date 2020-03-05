@@ -4,7 +4,12 @@ import { AppState } from "../../types/store";
 
 export type StateProps = Pick<
   Props,
-  "width" | "height" | "configColors" | "configValues" | "selectedObjectIds"
+  | "width"
+  | "height"
+  | "configColors"
+  | "configValues"
+  | "selectedObjectIds"
+  | "selectedLayoutId"
 >;
 export type DispatchProps = Pick<Props, never>;
 export type OwnProps = Omit<Props, keyof (StateProps & DispatchProps)>;
@@ -16,7 +21,8 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
   height: state.canvasHeight,
   configColors: state.configColors,
   configValues: state.configValues,
-  selectedObjectIds: state.selectedObjectIds
+  selectedObjectIds: state.selectedObjectIds,
+  selectedLayoutId: state.selectedLayoutId
 });
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {};
 

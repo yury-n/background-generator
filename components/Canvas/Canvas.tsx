@@ -15,6 +15,7 @@ export interface Props {
   configValues: any;
   configColors: any;
   selectedObjectIds: number[];
+  selectedLayoutId: number;
 }
 
 export const Canvas: React.FC<Props> = ({
@@ -22,7 +23,8 @@ export const Canvas: React.FC<Props> = ({
   height,
   configValues,
   configColors,
-  selectedObjectIds
+  selectedObjectIds,
+  selectedLayoutId
 }) => {
   const canvasContainer = useRef<HTMLDivElement>();
 
@@ -33,6 +35,7 @@ export const Canvas: React.FC<Props> = ({
       configColors,
       configValues,
       selectedObjectIds,
+      selectedLayoutId,
       canvasContainer,
       redrawCanvas
     });
@@ -42,6 +45,7 @@ export const Canvas: React.FC<Props> = ({
     configColors,
     configValues,
     selectedObjectIds,
+    selectedLayoutId,
     canvasContainer,
     redrawCanvas
   ]);
@@ -107,6 +111,7 @@ const redrawCanvas = throttle(
     configColors,
     configValues,
     selectedObjectIds,
+    selectedLayoutId,
     canvasContainer
   }) => {
     if (!window["fabric"] || !canvasContainer.current) {
@@ -116,7 +121,7 @@ const redrawCanvas = throttle(
     const paddingX = width * (configValues.padding / 100);
     const paddingY = height * (configValues.padding / 100);
 
-    const layout = layouts.find(l => l.id === 1);
+    const layout = layouts.find(l => l.id === selectedLayoutId);
     const layoutItems = layout.generate(
       width - 2 * paddingX,
       height - 2 * paddingY,
@@ -144,6 +149,14 @@ const redrawCanvas = throttle(
     // window["loadedFile"] ? window["loadedFile"].imageUrl
 
     const containerRect = canvasContainer.current.getBoundingClientRect();
+
+    console.log({
+      width,
+      height,
+      maxWidth: containerRect.width - 70 * 2,
+      maxHeight: containerRect.height - 70 * 2,
+      canvasContainer
+    });
 
     const scaleToFit = getScaleToFullyFit({
       width,

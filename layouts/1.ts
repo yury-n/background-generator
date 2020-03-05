@@ -33,7 +33,8 @@ export default {
       name: "withRandomPosition",
       label: "Randomize Position",
       type: ConfigFieldType.RandomnessInput,
-      strengthConfigFieldName: "randomizePositionStrength"
+      strengthConfigFieldName: "randomizePositionStrength",
+      defaultValue: false
     }
   ],
   generate: (width, height, configValues) => {
