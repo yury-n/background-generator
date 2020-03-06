@@ -12,7 +12,7 @@ export default {
       label: "Object Distance",
       type: ConfigFieldType.NumberInput,
       defaultValue: 50,
-      minValue: 0,
+      minValue: 30,
       maxValue: 100
     },
     ...beforeBooleans,

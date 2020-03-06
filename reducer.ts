@@ -16,8 +16,8 @@ import { FillType } from "./types";
 import layouts from "./layouts";
 
 export const initState: AppState = {
-  canvasWidth: 1080,
-  canvasHeight: 1080,
+  canvasWidth: 600,
+  canvasHeight: 600,
   configColors: {
     backgroundColor: { type: FillType.Solid, values: ["#fff", "#ccc"] },
     objectColors: [{ type: FillType.Solid, values: ["#000", "#ccc"] }]

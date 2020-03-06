@@ -116,8 +116,8 @@ const redrawCanvas = throttle(
     selectedLayoutId,
     canvasContainer
   }) => {
-    if (!window["fabric"] || !canvasContainer.current) {
-      return;
+    if (!window || !window["fabric"] || !canvasContainer.current) {
+      return null;
     }
 
     if (
@@ -171,14 +171,6 @@ const redrawCanvas = throttle(
     // window["loadedFile"] ? window["loadedFile"].imageUrl
 
     const containerRect = canvasContainer.current.getBoundingClientRect();
-
-    console.log({
-      width,
-      height,
-      maxWidth: containerRect.width - 70 * 2,
-      maxHeight: containerRect.height - 70 * 2,
-      canvasContainer
-    });
 
     const scaleToFit = getScaleToFullyFit({
       width,

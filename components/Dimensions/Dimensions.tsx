@@ -9,6 +9,7 @@ export interface Props {
 }
 
 const presetDimensions = [
+  { width: 600, height: 600, label: "Square" },
   { width: 1280, height: 720, label: "Youtube Thumb" },
   { width: 940, height: 788, label: "Facebook Post" },
   { width: 830, height: 315, label: "Facebook Cover" },
