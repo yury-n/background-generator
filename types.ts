@@ -18,3 +18,10 @@ export enum ConfigFieldType {
   NumberInput = "NumberInput",
   RandomnessInput = "RandomnessInput"
 }
+
+export type Layout = {
+  id: number;
+  src: string;
+  configFields: any[];
+  generate: (width: number, height: number, configValues: any) => any[];
+};

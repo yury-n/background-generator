@@ -1,17 +1,11 @@
-import { ConfigFieldType } from "../types";
+import { ConfigFieldType, Layout } from "../types";
+import { beforeAll, beforeBooleans } from "./_shared";
 
 export default {
   id: 2,
   src: "/layout_thumbs/1.png",
   configFields: [
-    {
-      name: "objectSize",
-      label: "Object Size",
-      type: ConfigFieldType.NumberInput,
-      defaultValue: 10,
-      minValue: 2,
-      maxValue: 50
-    },
+    ...beforeAll,
     {
       name: "columnCount",
       label: "Column Count",
@@ -28,14 +22,7 @@ export default {
       minValue: 1,
       maxValue: 50
     },
-    {
-      name: "padding",
-      label: "Padding %",
-      type: ConfigFieldType.NumberInput,
-      defaultValue: 20,
-      minValue: 0,
-      maxValue: 50
-    }
+    ...beforeBooleans
   ],
   generate: (width, height, configValues) => {
     const { columnCount, rowCount } = configValues;
@@ -53,4 +40,4 @@ export default {
 
     return items;
   }
-};
+} as Layout;

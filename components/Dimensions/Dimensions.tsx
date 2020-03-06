@@ -34,7 +34,7 @@ export const Dimensions: React.FC<Props> = ({
       className={s["dimensions-form-wrapper"]}
     >
       <Input
-        key={canvasWidth}
+        key={`w-${canvasWidth}`}
         className={s["dimensions-input"]}
         defaultValue={canvasWidth}
         onBlur={widthInputCallback}
@@ -42,7 +42,7 @@ export const Dimensions: React.FC<Props> = ({
       />
       <span className={s["dimensions-x"]}>×</span>
       <Input
-        key={canvasHeight}
+        key={`h-${canvasHeight}`}
         className={s["dimensions-input"]}
         defaultValue={canvasHeight}
         onBlur={heightInputCallback}

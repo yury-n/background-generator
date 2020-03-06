@@ -104,6 +104,8 @@ const applyColorToFabricElement = (color, elem) => {
   }
 };
 
+let prevConfigValues;
+
 const redrawCanvas = throttle(
   ({
     width,
@@ -117,6 +119,26 @@ const redrawCanvas = throttle(
     if (!window["fabric"] || !canvasContainer.current) {
       return;
     }
+
+    if (
+      prevConfigValues &&
+      configValues.objectSize !== prevConfigValues.objectSize
+    ) {
+      window["objects"].forEach(object => {
+        object.scaleToWidth(configValues.objectSize);
+        const objectSizeDelta =
+          configValues.objectSize - prevConfigValues.objectSize;
+        object.set({
+          left: object.left - objectSizeDelta / 2,
+          top: object.top - objectSizeDelta / 2
+        });
+      });
+      window["fabricCanvas"].renderAll();
+      prevConfigValues = configValues;
+      return;
+    }
+
+    prevConfigValues = configValues;
 
     const paddingX = width * (configValues.padding / 100);
     const paddingY = height * (configValues.padding / 100);
@@ -183,6 +205,7 @@ const redrawCanvas = throttle(
     applyColorToFabricElement(configColors.backgroundColor, rect);
 
     window["rect"] = rect;
+    window["objects"] = [];
     fabricCanvas.add(rect);
 
     const renderLayoutItems = () => {
@@ -192,6 +215,7 @@ const redrawCanvas = throttle(
         loadedFabricObjects[selectedObjects[currentObjectIndex].id].clone(
           (function(top, left) {
             return function(clone) {
+              window["objects"].push(clone);
               clone.scaleToWidth(configValues.objectSize);
               clone.set({
                 left: paddingX + left - configValues.objectSize / 2,

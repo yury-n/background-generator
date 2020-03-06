@@ -1,18 +1,12 @@
 import random from "lodash.random";
-import { ConfigFieldType } from "../types";
+import { ConfigFieldType, Layout } from "../types";
+import { beforeBooleans, beforeAll } from "./_shared";
 
 export default {
   id: 1,
   src: "/layout_thumbs/1.png",
   configFields: [
-    {
-      name: "objectSize",
-      label: "Object Size",
-      type: ConfigFieldType.NumberInput,
-      defaultValue: 10,
-      minValue: 2,
-      maxValue: 50
-    },
+    ...beforeAll,
     {
       name: "objectDistance",
       label: "Object Distance",
@@ -21,14 +15,7 @@ export default {
       minValue: 0,
       maxValue: 100
     },
-    {
-      name: "padding",
-      label: "Padding %",
-      type: ConfigFieldType.NumberInput,
-      defaultValue: 20,
-      minValue: 0,
-      maxValue: 50
-    },
+    ...beforeBooleans,
     {
       name: "withRandomPosition",
       label: "Randomize Position",
@@ -66,4 +53,4 @@ export default {
     }
     return items;
   }
-};
+} as Layout;

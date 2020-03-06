@@ -4,8 +4,11 @@ import layouts from "./layouts";
 export const getConfigValue = configField => (state: AppState) =>
   state.configValues[configField];
 
+export const getConfigFields = (state: AppState) =>
+  getSelectedLayout(state).configFields || [];
+
 export const getConfigField = configFieldName => (state: AppState) =>
-  getSelectedLayout(state).configFields.find(
+  getConfigFields(state).find(
     configField => configField.name === configFieldName
   );
 

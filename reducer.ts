@@ -146,12 +146,15 @@ const reducer = handleActions<AppState, any>(
       state,
       action: ReturnType<typeof selectLayout>
     ) => {
+      const oldConfigValues = state.configValues;
       const newConfigValues = {};
       const newSelectedLayout = layouts.find(
         layout => layout.id === action.payload.id
       );
       newSelectedLayout.configFields.forEach(configField => {
-        newConfigValues[configField.name] = configField.defaultValue;
+        newConfigValues[configField.name] = configField.isShared
+          ? oldConfigValues[configField.name]
+          : configField.defaultValue;
       });
       return {
         ...state,
