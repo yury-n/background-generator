@@ -138,6 +138,12 @@ const redrawCanvas = throttle(
       return;
     }
 
+    // if (prevConfigValues && configValues.objectDistance !== prevConfigValues.objectDistance) {
+    //   window["objects"].forEach(object => {
+    //     window["fabricCanvas"].remove(object);
+    //   });
+    // }
+
     prevConfigValues = configValues;
 
     const paddingX = width * (configValues.padding / 100);

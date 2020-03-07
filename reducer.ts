@@ -9,11 +9,15 @@ import {
   addItemColor,
   removeItemColor,
   selectObject,
+  selectAsOnlyObject,
   deselectObject,
   selectLayout
 } from "./actions";
 import { FillType } from "./types";
 import layouts from "./layouts";
+import { getDefaultConfigValues } from "./helpers";
+
+const selectedLayoutId = 1;
 
 export const initState: AppState = {
   canvasWidth: 600,
@@ -22,14 +26,8 @@ export const initState: AppState = {
     backgroundColor: { type: FillType.Solid, values: ["#fff", "#ccc"] },
     objectColors: [{ type: FillType.Solid, values: ["#000", "#ccc"] }]
   },
-  configValues: {
-    objectDistance: 50,
-    objectSize: 2,
-    padding: 10,
-    withRandomPosition: false,
-    randomizePositionStrength: 10
-  },
-  selectedLayoutId: 1,
+  configValues: getDefaultConfigValues(selectedLayoutId),
+  selectedLayoutId,
   selectedObjectIds: [3],
   currentRandomSnapshot: Math.random()
 };
@@ -140,6 +138,15 @@ const reducer = handleActions<AppState, any>(
         selectedObjectIds: state.selectedObjectIds.filter(
           id => id !== action.payload.id
         )
+      };
+    },
+    [selectAsOnlyObject.toString()]: (
+      state,
+      action: ReturnType<typeof selectObject>
+    ) => {
+      return {
+        ...state,
+        selectedObjectIds: [action.payload.id]
       };
     },
     [selectLayout.toString()]: (

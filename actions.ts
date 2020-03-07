@@ -19,6 +19,9 @@ export const removeItemColor = createAction<{ index: number }>(
 );
 
 export const selectObject = createAction<{ id: number }>("SELECT_OBJECT");
+export const selectAsOnlyObject = createAction<{ id: number }>(
+  "SELECT_OBJECT_AS_ONLY"
+);
 export const deselectObject = createAction<{ id: number }>("DESELECT_OBJECT");
 
 export const selectLayout = createAction<{ id: number }>("SELECT_LAYOUT");

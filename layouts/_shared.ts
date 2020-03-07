@@ -18,7 +18,7 @@ export const beforeBooleans = [
     name: "padding",
     label: "Padding %",
     type: ConfigFieldType.NumberInput,
-    defaultValue: 20,
+    defaultValue: 10,
     minValue: 0,
     maxValue: 50
   }

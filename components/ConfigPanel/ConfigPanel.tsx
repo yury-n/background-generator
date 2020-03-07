@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, Form, Layout } from "antd";
+import { Form, Layout } from "antd";
 const { Sider } = Layout;
 import NumberInput from "./NumberInput";
 import RandomnessInput from "./RandomnessInput";
@@ -23,7 +23,6 @@ export const ConfigPanel: React.FC<Props> = ({
   return (
     <Sider className={s["sider"]} width={330}>
       <h1 className={s["logo"]}>
-        <Icon type="border-outer" className={s["logo-icon"]} />
         <a href="/">Background Generator</a>
       </h1>
       <Form layout="vertical" className={s["form"]}>

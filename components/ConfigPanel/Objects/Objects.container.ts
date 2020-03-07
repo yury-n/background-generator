@@ -1,10 +1,17 @@
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
 import { Props } from "./Objects";
 import { AppState } from "../../../types/store";
-import { selectObject, deselectObject } from "../../../actions";
+import {
+  selectObject,
+  selectAsOnlyObject,
+  deselectObject
+} from "../../../actions";
 
 export type StateProps = Pick<Props, "selectedObjectIds">;
-export type DispatchProps = Pick<Props, "selectObject" | "deselectObject">;
+export type DispatchProps = Pick<
+  Props,
+  "selectObject" | "selectAsOnlyObject" | "deselectObject"
+>;
 export type OwnProps = Omit<Props, keyof (StateProps & DispatchProps)>;
 
 const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
@@ -14,6 +21,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
 });
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {
   selectObject,
+  selectAsOnlyObject,
   deselectObject
 };
 

@@ -1,14 +1,14 @@
 .dimensions-form-wrapper {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   position: relative;
-  padding-right: 30px;
-  margin-left: 35px;
+  padding-right: 35px;
+  padding-left: 35px;
 }
 
 .dimensions-dropdown {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 0px;
 }
 
 .dimensions-input {
@@ -26,6 +26,16 @@
 .dimensions-dropdown > button:first-child {
   pointer-events: none;
   display: none;
+}
+
+.dimensions-dropdown > button:last-child {
+  width: 32px;
+  height: 32px;
+  border-radius: 50% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4px;
 }
 
 .menu-item {

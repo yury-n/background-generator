@@ -6,9 +6,15 @@
 }
 
 .item-thumb {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  &:hover {
+    .plus-button {
+      opacity: 1;
+    }
+  }
 }
 
 .item-thumb > img {
@@ -21,4 +27,14 @@
 
 .show-more {
   color: #3aa7f9;
+}
+
+.plus-button {
+  position: absolute;
+  top: -13px;
+  right: -11px;
+  transform-origin: center;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: opacity 300ms;
 }

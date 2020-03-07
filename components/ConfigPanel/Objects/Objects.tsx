@@ -10,12 +10,14 @@ import s from "./Objects.less";
 export interface Props {
   selectedObjectIds: number[];
   selectObject: ({ id: number }) => void;
+  selectAsOnlyObject: ({ id: number }) => void;
   deselectObject: ({ id: number }) => void;
 }
 
 export const Objects: React.FC<Props> = ({
   selectedObjectIds,
   selectObject,
+  selectAsOnlyObject,
   deselectObject
 }) => {
   return (
@@ -32,9 +34,21 @@ export const Objects: React.FC<Props> = ({
               onClick={() =>
                 isSelected
                   ? deselectObject({ id: object.id })
-                  : selectObject({ id: object.id })
+                  : selectAsOnlyObject({ id: object.id })
               }
             >
+              {!isSelected && (
+                <Button
+                  className={s["plus-button"]}
+                  shape="circle"
+                  icon="plus"
+                  size="small"
+                  onClick={e => {
+                    selectObject({ id: object.id });
+                    e.stopPropagation();
+                  }}
+                />
+              )}
               <img src={object.src} alt="image.png" />
             </BorderFrame>
           );
