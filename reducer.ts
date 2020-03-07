@@ -1,6 +1,7 @@
 import { handleActions } from "redux-actions";
 import { AppState } from "./types/store";
 import {
+  addUploadedObject,
   setCanvasDimensions,
   setBackgroundColor,
   setConfigValue,
@@ -19,6 +20,8 @@ import { getDefaultConfigValues } from "./helpers";
 
 const selectedLayoutId = 1;
 
+let nextUploadedObjectId = -1;
+
 export const initState: AppState = {
   canvasWidth: 600,
   canvasHeight: 600,
@@ -29,6 +32,7 @@ export const initState: AppState = {
   configValues: getDefaultConfigValues(selectedLayoutId),
   selectedLayoutId,
   selectedObjectIds: [3],
+  uploadedObjects: [],
   currentRandomSnapshot: Math.random()
 };
 
@@ -167,6 +171,21 @@ const reducer = handleActions<AppState, any>(
         ...state,
         selectedLayoutId: action.payload.id,
         configValues: newConfigValues
+      };
+    },
+    [addUploadedObject.toString()]: (
+      state,
+      action: ReturnType<typeof addUploadedObject>
+    ) => {
+      return {
+        ...state,
+        uploadedObjects: [
+          ...state.uploadedObjects,
+          {
+            id: nextUploadedObjectId--,
+            src: action.payload.src
+          }
+        ]
       };
     }
   },

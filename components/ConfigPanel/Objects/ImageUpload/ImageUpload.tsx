@@ -3,11 +3,16 @@ import { Icon } from "antd";
 
 import s from "./ImageUpload.less";
 
-export interface Props {}
+export interface Props {
+  addUploadedObject: ({ src: string }) => void;
+}
 
-export const ImageUpload: React.FC<Props> = props => {
+export const ImageUpload: React.FC<Props> = ({ addUploadedObject }) => {
   const onFileChange = e => {
     const file = e.target.files[0];
+    const objectURL = window["URL"].createObjectURL(file);
+    addUploadedObject({ src: objectURL });
+    console.log({ objectURL });
     const fileReader = new FileReader();
     fileReader.onload = onFileReaderLoad;
     fileReader.readAsDataURL(file);

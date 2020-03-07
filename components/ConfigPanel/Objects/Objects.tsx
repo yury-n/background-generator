@@ -4,10 +4,12 @@ import objects from "../../../objects";
 import ImageUpload from "./ImageUpload";
 import { Form, Button, Divider } from "antd";
 import BorderFrame from "../../BorderFrame";
+import { ImageObject } from "../../../types";
 
 import s from "./Objects.less";
 
 export interface Props {
+  uploadedObjects: ImageObject[];
   selectedObjectIds: number[];
   selectObject: ({ id: number }) => void;
   selectAsOnlyObject: ({ id: number }) => void;
@@ -15,6 +17,7 @@ export interface Props {
 }
 
 export const Objects: React.FC<Props> = ({
+  uploadedObjects,
   selectedObjectIds,
   selectObject,
   selectAsOnlyObject,
@@ -24,7 +27,7 @@ export const Objects: React.FC<Props> = ({
     <Form.Item label="Objects" className={s["form-item-with-show-more"]}>
       <div className={s["layout-items"]}>
         <ImageUpload />
-        {objects.map((object, index) => {
+        {[...uploadedObjects, ...objects].map((object, index) => {
           const isSelected = selectedObjectIds.includes(object.id);
           return (
             <BorderFrame

@@ -25,3 +25,8 @@ export type Layout = {
   configFields: any[];
   generate: (width: number, height: number, configValues: any) => any[];
 };
+
+export type ImageObject = {
+  id: number;
+  src: string;
+};

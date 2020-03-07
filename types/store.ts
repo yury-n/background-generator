@@ -1,4 +1,4 @@
-import { Color } from "../types";
+import { Color, ImageObject } from "../types";
 
 export interface AppState {
   canvasWidth: number;
@@ -11,4 +11,5 @@ export interface AppState {
   currentRandomSnapshot: number;
   selectedLayoutId: number;
   selectedObjectIds: number[];
+  uploadedObjects: ImageObject[];
 }
