@@ -105,6 +105,8 @@ const applyColorToFabricElement = (color, elem) => {
 };
 
 let prevConfigValues;
+const loadedFabricObjects = {};
+let loadedFabricObjectsCount = 0;
 
 const redrawCanvas = throttle(
   ({
@@ -119,6 +121,73 @@ const redrawCanvas = throttle(
     if (!window || !window["fabric"] || !canvasContainer.current) {
       return null;
     }
+
+    const selectedObjects = selectedObjectIds.map(id =>
+      objects.find(item => item.id === id)
+    );
+
+    const renderLayoutItems = () => {
+      const paddingX = width * (configValues.padding / 100);
+      const paddingY = height * (configValues.padding / 100);
+
+      const layout = layouts.find(l => l.id === selectedLayoutId);
+      const layoutItems = layout.generate(
+        width - 2 * paddingX,
+        height - 2 * paddingY,
+        configValues
+      );
+
+      let currentColorIndex = 0;
+      let currentObjectIndex = 0;
+      layoutItems.forEach(item =>
+        loadedFabricObjects[selectedObjects[currentObjectIndex].id].clone(
+          (function(top, left) {
+            return function(clone) {
+              window["objects"].push(clone);
+              clone.scaleToWidth(configValues.objectSize);
+              clone.set({
+                left: paddingX + left - configValues.objectSize / 2,
+                top: paddingY + top - configValues.objectSize / 2
+              });
+              applyColorToFabricElement(
+                configColors.objectColors[currentColorIndex],
+                clone
+              );
+              window["fabricCanvas"] && window["fabricCanvas"].add(clone);
+
+              if (selectedObjects.length > 0) {
+                if (configValues.withRandomObjectOrder) {
+                  currentObjectIndex = random(0, selectedObjects.length - 1);
+                } else {
+                  currentObjectIndex++;
+                  if (currentObjectIndex > selectedObjects.length - 1) {
+                    currentObjectIndex = 0;
+                  }
+                }
+              }
+
+              if (configColors.objectColors.length > 0) {
+                if (configValues.withRandomColor) {
+                  currentColorIndex = random(
+                    0,
+                    configColors.objectColors.length - 1
+                  );
+                } else {
+                  currentColorIndex++;
+                  if (
+                    currentColorIndex >
+                    configColors.objectColors.length - 1
+                  ) {
+                    currentColorIndex = 0;
+                  }
+                }
+              }
+            };
+          })(item.top, item.left)
+        )
+      );
+      window["fabricCanvas"] && window["fabricCanvas"].renderAll();
+    };
 
     if (
       prevConfigValues &&
@@ -138,29 +207,21 @@ const redrawCanvas = throttle(
       return;
     }
 
-    // if (prevConfigValues && configValues.objectDistance !== prevConfigValues.objectDistance) {
-    //   window["objects"].forEach(object => {
-    //     window["fabricCanvas"].remove(object);
-    //   });
-    // }
+    if (
+      prevConfigValues &&
+      configValues.objectDistance !== prevConfigValues.objectDistance
+    ) {
+      window["objects"].forEach(object => {
+        window["fabricCanvas"].remove(object);
+      });
+      window["objects"] = [];
+      renderLayoutItems();
+      prevConfigValues = configValues;
+      return;
+    }
 
     prevConfigValues = configValues;
 
-    const paddingX = width * (configValues.padding / 100);
-    const paddingY = height * (configValues.padding / 100);
-
-    const layout = layouts.find(l => l.id === selectedLayoutId);
-    const layoutItems = layout.generate(
-      width - 2 * paddingX,
-      height - 2 * paddingY,
-      configValues
-    );
-
-    const selectedObjects = selectedObjectIds.map(id =>
-      objects.find(item => item.id === id)
-    );
-    const loadedFabricObjects = {};
-    let loadedFabricObjectsCount = 0;
     selectedObjects.map(selectedObject => {
       window["fabric"].loadSVGFromURL(selectedObject.src, function(
         objects,
@@ -205,59 +266,6 @@ const redrawCanvas = throttle(
     window["rect"] = rect;
     window["objects"] = [];
     fabricCanvas.add(rect);
-
-    const renderLayoutItems = () => {
-      let currentColorIndex = 0;
-      let currentObjectIndex = 0;
-      layoutItems.forEach(item =>
-        loadedFabricObjects[selectedObjects[currentObjectIndex].id].clone(
-          (function(top, left) {
-            return function(clone) {
-              window["objects"].push(clone);
-              clone.scaleToWidth(configValues.objectSize);
-              clone.set({
-                left: paddingX + left - configValues.objectSize / 2,
-                top: paddingY + top - configValues.objectSize / 2
-              });
-              applyColorToFabricElement(
-                configColors.objectColors[currentColorIndex],
-                clone
-              );
-              fabricCanvas && fabricCanvas.add(clone);
-
-              if (selectedObjects.length > 0) {
-                if (configValues.withRandomObjectOrder) {
-                  currentObjectIndex = random(0, selectedObjects.length - 1);
-                } else {
-                  currentObjectIndex++;
-                  if (currentObjectIndex > selectedObjects.length - 1) {
-                    currentObjectIndex = 0;
-                  }
-                }
-              }
-
-              if (configColors.objectColors.length > 0) {
-                if (configValues.withRandomColor) {
-                  currentColorIndex = random(
-                    0,
-                    configColors.objectColors.length - 1
-                  );
-                } else {
-                  currentColorIndex++;
-                  if (
-                    currentColorIndex >
-                    configColors.objectColors.length - 1
-                  ) {
-                    currentColorIndex = 0;
-                  }
-                }
-              }
-            };
-          })(item.top, item.left)
-        )
-      );
-      fabricCanvas && fabricCanvas.renderAll();
-    };
   },
   100
 );
