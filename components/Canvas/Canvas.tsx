@@ -5,7 +5,7 @@ import random from "lodash.random";
 import { colorObjToString, angle2rect } from "../../utils";
 import layouts from "../../layouts";
 import objects from "../../objects";
-import { FillType } from "../../types";
+import { FillType, ImageObject } from "../../types";
 
 import s from "./Canvas.less";
 
@@ -16,6 +16,7 @@ export interface Props {
   configColors: any;
   selectedObjectIds: number[];
   selectedLayoutId: number;
+  uploadedObjects: ImageObject[];
 }
 
 export const Canvas: React.FC<Props> = ({
@@ -24,7 +25,8 @@ export const Canvas: React.FC<Props> = ({
   configValues,
   configColors,
   selectedObjectIds,
-  selectedLayoutId
+  selectedLayoutId,
+  uploadedObjects
 }) => {
   const canvasContainer = useRef<HTMLDivElement>();
 
@@ -36,6 +38,7 @@ export const Canvas: React.FC<Props> = ({
       configValues,
       selectedObjectIds,
       selectedLayoutId,
+      uploadedObjects,
       canvasContainer,
       redrawCanvas
     });
@@ -46,6 +49,7 @@ export const Canvas: React.FC<Props> = ({
     configValues,
     selectedObjectIds,
     selectedLayoutId,
+    uploadedObjects,
     canvasContainer,
     redrawCanvas
   ]);
@@ -116,14 +120,16 @@ const redrawCanvas = throttle(
     configValues,
     selectedObjectIds,
     selectedLayoutId,
+    uploadedObjects,
     canvasContainer
   }) => {
     if (!window || !window["fabric"] || !canvasContainer.current) {
       return null;
     }
 
+    console.log({ uploadedObjects, selectedObjectIds });
     const selectedObjects = selectedObjectIds.map(id =>
-      objects.find(item => item.id === id)
+      [...uploadedObjects, ...objects].find(item => item.id === id)
     );
 
     const renderLayoutItems = () => {
@@ -222,6 +228,8 @@ const redrawCanvas = throttle(
 
     prevConfigValues = configValues;
 
+    console.log({ selectedObjects });
+    loadedFabricObjectsCount = 0;
     selectedObjects.map(selectedObject => {
       window["fabric"].loadSVGFromURL(selectedObject.src, function(
         objects,

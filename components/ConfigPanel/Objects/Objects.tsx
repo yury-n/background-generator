@@ -27,7 +27,7 @@ export const Objects: React.FC<Props> = ({
     <Form.Item label="Objects" className={s["form-item-with-show-more"]}>
       <div className={s["layout-items"]}>
         <ImageUpload />
-        {[...uploadedObjects, ...objects].map((object, index) => {
+        {[...uploadedObjects, ...objects].slice(0, 3).map((object, index) => {
           const isSelected = selectedObjectIds.includes(object.id);
           return (
             <BorderFrame
@@ -52,7 +52,13 @@ export const Objects: React.FC<Props> = ({
                   }}
                 />
               )}
-              <img src={object.src} alt="image.png" />
+              <img
+                src={object.src}
+                alt="image.png"
+                style={{
+                  width: object.thumbSize
+                }}
+              />
             </BorderFrame>
           );
         })}

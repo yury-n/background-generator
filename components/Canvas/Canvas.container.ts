@@ -9,6 +9,7 @@ export type StateProps = Pick<
   | "configColors"
   | "configValues"
   | "selectedObjectIds"
+  | "uploadedObjects"
   | "selectedLayoutId"
 >;
 export type DispatchProps = Pick<Props, never>;
@@ -22,6 +23,7 @@ const mapStateToProps: MapStateToProps<StateProps, OwnProps, AppState> = (
   configColors: state.configColors,
   configValues: state.configValues,
   selectedObjectIds: state.selectedObjectIds,
+  uploadedObjects: state.uploadedObjects,
   selectedLayoutId: state.selectedLayoutId
 });
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {};
