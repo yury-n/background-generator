@@ -231,17 +231,27 @@ const redrawCanvas = throttle(
     console.log({ selectedObjects });
     loadedFabricObjectsCount = 0;
     selectedObjects.map(selectedObject => {
-      window["fabric"].loadSVGFromURL(selectedObject.src, function(
-        objects,
-        options
-      ) {
-        const obj = window["fabric"].util.groupSVGElements(objects, options);
-        loadedFabricObjects[selectedObject.id] = obj;
-        loadedFabricObjectsCount++;
-        if (loadedFabricObjectsCount === selectedObjects.length) {
-          renderLayoutItems();
-        }
-      });
+      if (selectedObject.type?.includes("svg")) {
+        window["fabric"].loadSVGFromURL(selectedObject.src, function(
+          objects,
+          options
+        ) {
+          const obj = window["fabric"].util.groupSVGElements(objects, options);
+          loadedFabricObjects[selectedObject.id] = obj;
+          loadedFabricObjectsCount++;
+          if (loadedFabricObjectsCount === selectedObjects.length) {
+            renderLayoutItems();
+          }
+        });
+      } else {
+        window["fabric"].Image.fromURL(selectedObject.src, function(img) {
+          loadedFabricObjects[selectedObject.id] = img;
+          loadedFabricObjectsCount++;
+          if (loadedFabricObjectsCount === selectedObjects.length) {
+            renderLayoutItems();
+          }
+        });
+      }
     });
     // window["loadedFile"] ? window["loadedFile"].imageUrl
 

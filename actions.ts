@@ -31,6 +31,6 @@ export const setConfigValue = createAction<{
   configValue: any;
 }>("SET_CONFIG_VALUE");
 
-export const addUploadedObject = createAction<{ src: string }>(
+export const addUploadedObject = createAction<{ src: string; type: string }>(
   "ADD_UPLOADED_OBJECT"
 );

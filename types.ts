@@ -30,4 +30,5 @@ export type ImageObject = {
   id: number;
   src: string;
   thumbSize?: string;
+  type?: string;
 };

@@ -183,7 +183,8 @@ const reducer = handleActions<AppState, any>(
           ...state.uploadedObjects,
           {
             id: nextUploadedObjectId--,
-            src: action.payload.src
+            src: action.payload.src,
+            type: action.payload.type
           }
         ],
         selectedObjectIds: [nextUploadedObjectId + 1]
