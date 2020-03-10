@@ -22,6 +22,13 @@ export default {
       type: ConfigFieldType.RandomnessInput,
       strengthConfigFieldName: "randomizePositionStrength",
       defaultValue: false
+    },
+    {
+      type: ConfigFieldType.Hidden,
+      name: "randomizePositionStrength",
+      defaultValue: 10,
+      minValue: 30,
+      maxValue: 100
     }
   ],
   generate: (width, height, configValues) => {

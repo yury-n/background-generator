@@ -16,7 +16,8 @@ export type Color = {
 
 export enum ConfigFieldType {
   NumberInput = "NumberInput",
-  RandomnessInput = "RandomnessInput"
+  RandomnessInput = "RandomnessInput",
+  Hidden = "Hidden"
 }
 
 export type Layout = {
