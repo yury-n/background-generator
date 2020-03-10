@@ -2,15 +2,32 @@ import React from "react";
 import download from "downloadjs";
 import { Menu, Icon, Dropdown } from "antd";
 
-export interface Props {}
+export interface Props {
+  hasNonSVGObjects: boolean;
+}
 
-export const DownloadButton: React.FC<Props> = props => {
+export const DownloadButton: React.FC<Props> = ({ hasNonSVGObjects }) => {
+  console.log({ hasNonSVGObjects });
   return (
     <Dropdown.Button
       type="primary"
       size="large"
       icon={<Icon type="down" />}
-      overlay={downloadMenu}
+      overlay={
+        <Menu>
+          {!hasNonSVGObjects && (
+            <Menu.Item key="svg" onClick={downloadAsSVG}>
+              as <strong>SVG</strong> file
+            </Menu.Item>
+          )}
+          <Menu.Item key="png" onClick={downloadAsPNG}>
+            as <strong>PNG</strong> file
+          </Menu.Item>
+          <Menu.Item key="jpeg" onClick={downloadAsJPEG}>
+            as <strong>JPEG</strong> file
+          </Menu.Item>
+        </Menu>
+      }
       onClick={downloadAsPNG}
     >
       <Icon type="download" />
@@ -36,19 +53,5 @@ const downloadAsJPEG = () => {
     "image/jpeg"
   );
 };
-
-const downloadMenu = (
-  <Menu>
-    <Menu.Item key="1" onClick={downloadAsSVG}>
-      as <strong>SVG</strong> file
-    </Menu.Item>
-    <Menu.Item key="2" onClick={downloadAsPNG}>
-      as <strong>PNG</strong> file
-    </Menu.Item>
-    <Menu.Item key="2" onClick={downloadAsJPEG}>
-      as <strong>JPEG</strong> file
-    </Menu.Item>
-  </Menu>
-);
 
 export default DownloadButton;
