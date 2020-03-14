@@ -147,10 +147,10 @@ const redrawCanvas = throttle(
       let currentObjectIndex = 0;
       layoutItems.forEach(item =>
         loadedFabricObjects[selectedObjects[currentObjectIndex].id].clone(
-          (function(top, left) {
+          (function(width, height, top, left) {
             return function(clone) {
               window["objects"].push(clone);
-              clone.scaleToWidth(configValues.objectSize);
+              clone.scaleToWidth(width || configValues.objectSize);
               clone.set({
                 left: paddingX + left - configValues.objectSize / 2,
                 top: paddingY + top - configValues.objectSize / 2
@@ -189,7 +189,7 @@ const redrawCanvas = throttle(
                 }
               }
             };
-          })(item.top, item.left)
+          })(item.width, item.height, item.top, item.left)
         )
       );
       window["fabricCanvas"] && window["fabricCanvas"].renderAll();
