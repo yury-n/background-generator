@@ -34,6 +34,9 @@ export const ConfigPanel: React.FC<Props> = ({
         <Objects />
         {configFields.map((configField, index) => {
           let formField;
+          if (configField.type === ConfigFieldType.Hidden) {
+            return null;
+          }
           switch (configField.type) {
             case ConfigFieldType.NumberInput:
               formField = <NumberInput configFieldName={configField.name} />;

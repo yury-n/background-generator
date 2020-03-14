@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Icon, Layout, Row, Col } from "antd";
+import { Button, Icon, Layout, Row, Col } from "antd";
 const { Header, Content } = Layout;
 import { withRedux } from "../lib/withRedux";
 import Dimensions from "../components/Dimensions";
@@ -44,7 +44,9 @@ const IndexPage = () => {
           <Layout className={s["right-side"]}>
             <Header className={s["header"]}>
               <Row className={s["header-row"]}>
-                <Col span={8}></Col>
+                <Col span={8} className={s["explore-area"]}>
+                  <Button icon="appstore">Explore</Button>
+                </Col>
                 <Col span={8} className={s["dimensions-area"]}>
                   <Dimensions />
                 </Col>
