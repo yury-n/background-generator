@@ -1,10 +1,11 @@
 import React from "react";
 import classnames from "classnames";
-import { Form, Button, Divider } from "antd";
+import { Form } from "antd";
 import BorderFrame from "../../BorderFrame";
 import layouts from "../../../layouts";
 
 import s from "./Layouts.less";
+import useCollapse from "../../../hooks/useCollapse";
 
 export interface Props {
   selectedLayoutId: number;
@@ -15,10 +16,11 @@ export const Layouts: React.FC<Props> = ({
   selectedLayoutId,
   selectLayout
 }) => {
+  const { isCollapsed, collapseButton } = useCollapse();
   return (
     <Form.Item label="Layouts" className={s["form-item-with-show-more"]}>
       <div className={s["layouts"]}>
-        {layouts.map((layout, index) => (
+        {layouts.slice(0, isCollapsed ? 3 : undefined).map((layout, index) => (
           <BorderFrame
             key={index}
             isActive={layout.id === selectedLayoutId}
@@ -29,11 +31,7 @@ export const Layouts: React.FC<Props> = ({
           </BorderFrame>
         ))}
       </div>
-      <Divider>
-        <Button type="link" icon="down" className={s["show-more"]}>
-          Show More
-        </Button>
-      </Divider>
+      {collapseButton}
     </Form.Item>
   );
 };

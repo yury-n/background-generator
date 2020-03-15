@@ -1,9 +1,6 @@
 import { ConfigFieldType, Layout } from "../types";
 import { beforeAll, beforeBooleans } from "./_shared";
-
-function deg2rad(angle) {
-  return angle * (Math.PI / 180);
-}
+import { deg2rad } from "../helpers";
 
 export default {
   id: 3,

@@ -127,7 +127,6 @@ const redrawCanvas = throttle(
       return null;
     }
 
-    console.log({ uploadedObjects, selectedObjectIds });
     const selectedObjects = selectedObjectIds.map(id =>
       [...uploadedObjects, ...objects].find(item => item.id === id)
     );
@@ -228,7 +227,6 @@ const redrawCanvas = throttle(
 
     prevConfigValues = configValues;
 
-    console.log({ selectedObjects });
     loadedFabricObjectsCount = 0;
     selectedObjects.map(selectedObject => {
       if (selectedObject.type?.includes("svg")) {

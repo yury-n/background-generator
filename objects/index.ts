@@ -16,5 +16,11 @@ export default [
     src: "/item_thumb/3.svg",
     thumbSize: "50%",
     type: "image/svg+xml"
+  },
+  {
+    id: 4,
+    src: "/item_thumb/4.svg",
+    thumbSize: "50%",
+    type: "image/svg+xml"
   }
 ];
