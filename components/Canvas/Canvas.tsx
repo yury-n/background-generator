@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from "react";
 import Head from "next/head";
 import throttle from "lodash.throttle";
 import random from "lodash.random";
-import { colorObjToString, angle2rect } from "../../utils";
 import layouts from "../../layouts";
 import objects from "../../objects";
-import { FillType, ImageObject } from "../../types";
+import { ImageObject } from "../../types";
+import { applyColorToFabricElement, getScaleToFullyFit } from "../../utils";
 
 import s from "./Canvas.less";
 
@@ -69,45 +69,6 @@ export const Canvas: React.FC<Props> = ({
 };
 Canvas.displayName = "Canvas";
 
-const applyColorToFabricElement = (color, elem) => {
-  const { width, height } = elem;
-  if (color.type === FillType.Solid) {
-    elem.set({
-      fill: colorObjToString(color.values[0])
-    });
-  } else if (color.type === FillType.Linear) {
-    const gradientStart = angle2rect(color.angle, width, height);
-    const gradientEnd = {
-      x: width - gradientStart.x,
-      y: height - gradientStart.y
-    };
-    elem.setGradient("fill", {
-      x1: gradientStart.x,
-      y1: gradientStart.y,
-      x2: gradientEnd.x,
-      y2: gradientEnd.y,
-      colorStops: {
-        0: colorObjToString(color.values[0]),
-        1: colorObjToString(color.values[1])
-      }
-    });
-  } else if (color.type === FillType.Radial) {
-    elem.setGradient("fill", {
-      x1: width / 2,
-      y1: height / 2,
-      x2: width / 2,
-      y2: height / 2,
-      type: "radial",
-      r1: width / 2,
-      r2: 10,
-      colorStops: {
-        0: colorObjToString(color.values[0]),
-        1: colorObjToString(color.values[1])
-      }
-    });
-  }
-};
-
 let prevConfigValues;
 const loadedFabricObjects = {};
 let loadedFabricObjectsCount = 0;
@@ -148,7 +109,6 @@ const redrawCanvas = throttle(
         loadedFabricObjects[selectedObjects[currentObjectIndex].id].clone(
           (function(width, height, top, left) {
             return function(clone) {
-              window["objects"].push(clone);
               clone.scaleToWidth(width || configValues.objectSize);
               clone.set({
                 left: paddingX + left - configValues.objectSize / 2,
@@ -158,6 +118,7 @@ const redrawCanvas = throttle(
                 configColors.objectColors[currentColorIndex],
                 clone
               );
+              window["objects"].push(clone);
               window["fabricCanvas"] && window["fabricCanvas"].add(clone);
 
               if (selectedObjects.length > 0) {
@@ -196,25 +157,8 @@ const redrawCanvas = throttle(
 
     if (
       prevConfigValues &&
-      configValues.objectSize !== prevConfigValues.objectSize
-    ) {
-      window["objects"].forEach(object => {
-        object.scaleToWidth(configValues.objectSize);
-        const objectSizeDelta =
-          configValues.objectSize - prevConfigValues.objectSize;
-        object.set({
-          left: object.left - objectSizeDelta / 2,
-          top: object.top - objectSizeDelta / 2
-        });
-      });
-      window["fabricCanvas"].renderAll();
-      prevConfigValues = configValues;
-      return;
-    }
-
-    if (
-      prevConfigValues &&
-      configValues.objectDistance !== prevConfigValues.objectDistance
+      (configValues.objectDistance !== prevConfigValues.objectDistance ||
+        configValues.objectSize !== prevConfigValues.objectSize)
     ) {
       window["objects"].forEach(object => {
         window["fabricCanvas"].remove(object);
@@ -251,7 +195,6 @@ const redrawCanvas = throttle(
         });
       }
     });
-    // window["loadedFile"] ? window["loadedFile"].imageUrl
 
     const containerRect = canvasContainer.current.getBoundingClientRect();
 
@@ -285,18 +228,5 @@ const redrawCanvas = throttle(
   },
   100
 );
-
-const getScaleToFullyFit = ({ width, height, maxWidth, maxHeight }) => {
-  let scaleToFitWidth = 1;
-  let scaleToFitHeight = 1;
-  if (width && width > maxWidth) {
-    scaleToFitWidth = maxWidth / width;
-  }
-  if (height && height > maxHeight) {
-    scaleToFitHeight = maxHeight / height;
-  }
-  const scaleToFullyFit = Math.min(scaleToFitWidth, scaleToFitHeight);
-  return scaleToFullyFit;
-};
 
 export default Canvas;

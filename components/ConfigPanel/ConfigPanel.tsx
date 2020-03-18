@@ -27,7 +27,7 @@ export const ConfigPanel: React.FC<Props> = ({
           <div className={s["block-1"]} />
           <div className={s["block-2"]} />
         </div>
-        <a href="/">Background Generator</a>
+        <a href="/">background generator</a>
       </h1>
       <Form layout="vertical" className={s["form"]}>
         <Layouts />

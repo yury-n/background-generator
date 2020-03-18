@@ -1,6 +1,6 @@
 import { ConfigFieldType, Layout } from "../types";
 import { beforeAll, beforeBooleans } from "./_shared";
-import { deg2rad } from "../helpers";
+import { deg2rad } from "../utils";
 
 export default {
   id: 3,

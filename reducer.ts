@@ -16,7 +16,7 @@ import {
 } from "./actions";
 import { FillType } from "./types";
 import layouts from "./layouts";
-import { getDefaultConfigValues } from "./helpers";
+import { getDefaultConfigValues } from "./utils";
 
 const selectedLayoutId = 1;
 

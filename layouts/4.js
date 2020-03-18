@@ -1,6 +1,6 @@
 import { ConfigFieldType } from "../types";
 import { beforeAll, beforeBooleans } from "./_shared";
-import { deg2rad, rotateItemCoords } from "../helpers";
+import { deg2rad, rotateItemCoords } from "../utils";
 
 export default {
   id: 4,
