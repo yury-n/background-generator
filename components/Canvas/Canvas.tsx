@@ -30,6 +30,11 @@ export const Canvas: React.FC<Props> = ({
 }) => {
   const canvasContainer = useRef<HTMLDivElement>();
 
+  useEffect(
+    () => initFabric({ width, height, canvasContainer, configColors }),
+    [width, height, canvasContainer, configColors]
+  );
+
   useEffect(() => {
     redrawCanvas({
       width,
@@ -39,7 +44,6 @@ export const Canvas: React.FC<Props> = ({
       selectedObjectIds,
       selectedLayoutId,
       uploadedObjects,
-      canvasContainer,
       redrawCanvas
     });
   }, [
@@ -50,7 +54,6 @@ export const Canvas: React.FC<Props> = ({
     selectedObjectIds,
     selectedLayoutId,
     uploadedObjects,
-    canvasContainer,
     redrawCanvas
   ]);
 
@@ -73,6 +76,37 @@ let prevConfigValues;
 const loadedFabricObjects = {};
 let loadedFabricObjectsCount = 0;
 
+const initFabric = ({ width, height, canvasContainer, configColors }) => {
+  const containerRect = canvasContainer.current.getBoundingClientRect();
+
+  const scaleToFit = getScaleToFullyFit({
+    width,
+    height,
+    maxWidth: containerRect.width - 70 * 2,
+    maxHeight: containerRect.height - 70 * 2
+  });
+
+  canvasContainer.current.innerHTML = `<div id="canvas-scale-wrapper"><canvas id="canvas"></canvas></div>`;
+  canvasContainer.current.firstChild.style.transform = `scale(${scaleToFit})`;
+
+  const fabricCanvas = new window["fabric"].Canvas("canvas");
+  window["fabricCanvas"] = fabricCanvas;
+  fabricCanvas.setWidth(width);
+  fabricCanvas.setHeight(height);
+  const rect = new window["fabric"].Rect({
+    width,
+    height,
+    left: 0,
+    top: 0,
+    selectable: false,
+    hoverCursor: "default"
+  });
+  applyColorToFabricElement(configColors.backgroundColor, rect);
+
+  window["rect"] = rect;
+  fabricCanvas.add(rect);
+};
+
 const redrawCanvas = throttle(
   ({
     width,
@@ -81,10 +115,9 @@ const redrawCanvas = throttle(
     configValues,
     selectedObjectIds,
     selectedLayoutId,
-    uploadedObjects,
-    canvasContainer
+    uploadedObjects
   }) => {
-    if (!window || !window["fabric"] || !canvasContainer.current) {
+    if (!window || !window["fabric"]) {
       return null;
     }
 
@@ -92,7 +125,7 @@ const redrawCanvas = throttle(
       [...uploadedObjects, ...objects].find(item => item.id === id)
     );
 
-    const renderLayoutItems = () => {
+    const addLayoutItems = () => {
       const paddingX = width * (configValues.padding / 100);
       const paddingY = height * (configValues.padding / 100);
 
@@ -105,6 +138,7 @@ const redrawCanvas = throttle(
 
       let currentColorIndex = 0;
       let currentObjectIndex = 0;
+      window["objects"] = [];
       layoutItems.forEach(item =>
         loadedFabricObjects[selectedObjects[currentObjectIndex].id].clone(
           (function(width, height, top, left) {
@@ -152,6 +186,9 @@ const redrawCanvas = throttle(
           })(item.width, item.height, item.top, item.left)
         )
       );
+    };
+
+    const renderAll = () => {
       window["fabricCanvas"] && window["fabricCanvas"].renderAll();
     };
 
@@ -163,8 +200,8 @@ const redrawCanvas = throttle(
       window["objects"].forEach(object => {
         window["fabricCanvas"].remove(object);
       });
-      window["objects"] = [];
-      renderLayoutItems();
+      addLayoutItems();
+      renderAll();
       prevConfigValues = configValues;
       return;
     }
@@ -182,7 +219,8 @@ const redrawCanvas = throttle(
           loadedFabricObjects[selectedObject.id] = obj;
           loadedFabricObjectsCount++;
           if (loadedFabricObjectsCount === selectedObjects.length) {
-            renderLayoutItems();
+            addLayoutItems();
+            renderAll();
           }
         });
       } else {
@@ -190,41 +228,12 @@ const redrawCanvas = throttle(
           loadedFabricObjects[selectedObject.id] = img;
           loadedFabricObjectsCount++;
           if (loadedFabricObjectsCount === selectedObjects.length) {
-            renderLayoutItems();
+            addLayoutItems();
+            renderAll();
           }
         });
       }
     });
-
-    const containerRect = canvasContainer.current.getBoundingClientRect();
-
-    const scaleToFit = getScaleToFullyFit({
-      width,
-      height,
-      maxWidth: containerRect.width - 70 * 2,
-      maxHeight: containerRect.height - 70 * 2
-    });
-
-    canvasContainer.current.innerHTML = `<div id="canvas-scale-wrapper"><canvas id="canvas"></canvas></div>`;
-    canvasContainer.current.firstChild.style.transform = `scale(${scaleToFit})`;
-
-    const fabricCanvas = new window["fabric"].Canvas("canvas");
-    window["fabricCanvas"] = fabricCanvas;
-    fabricCanvas.setWidth(width);
-    fabricCanvas.setHeight(height);
-    const rect = new window["fabric"].Rect({
-      width,
-      height,
-      left: 0,
-      top: 0,
-      selectable: false,
-      hoverCursor: "default"
-    });
-    applyColorToFabricElement(configColors.backgroundColor, rect);
-
-    window["rect"] = rect;
-    window["objects"] = [];
-    fabricCanvas.add(rect);
   },
   100
 );
