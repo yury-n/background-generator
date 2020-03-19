@@ -35,7 +35,7 @@ const IndexPage = () => {
   return (
     <>
       <Head>
-        <title>Background Generator</title>
+        <title>background generator</title>
         <link rel="icon" type="image/png" href="/favicon.png"></link>
         <link
           rel="stylesheet"

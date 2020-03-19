@@ -216,24 +216,22 @@ const redrawCanvas = throttle(
           options
         ) {
           const obj = window["fabric"].util.groupSVGElements(objects, options);
-          loadedFabricObjects[selectedObject.id] = obj;
-          loadedFabricObjectsCount++;
-          if (loadedFabricObjectsCount === selectedObjects.length) {
-            addLayoutItems();
-            renderAll();
-          }
+          addObjectToLoaded(selectedObject.id, obj);
         });
       } else {
         window["fabric"].Image.fromURL(selectedObject.src, function(img) {
-          loadedFabricObjects[selectedObject.id] = img;
-          loadedFabricObjectsCount++;
-          if (loadedFabricObjectsCount === selectedObjects.length) {
-            addLayoutItems();
-            renderAll();
-          }
+          addObjectToLoaded(selectedObject.id, img);
         });
       }
     });
+    const addObjectToLoaded = (id, obj) => {
+      loadedFabricObjects[id] = obj;
+      loadedFabricObjectsCount++;
+      if (loadedFabricObjectsCount === selectedObjects.length) {
+        addLayoutItems();
+        renderAll();
+      }
+    };
   },
   100
 );
