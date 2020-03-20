@@ -183,8 +183,6 @@ export default {
       figureSmallRadius += figureMargin;
     }
 
-    console.log({ items });
-
     return items;
   }
 };

@@ -7,7 +7,6 @@ export interface Props {
 }
 
 export const DownloadButton: React.FC<Props> = ({ hasNonSVGObjects }) => {
-  console.log({ hasNonSVGObjects });
   return (
     <Dropdown.Button
       type="primary"

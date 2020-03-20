@@ -28,6 +28,5 @@ export const getHasNonSVGObjects = (state: AppState) => {
       hasOnlySVGObjects = false;
     }
   });
-  console.log({ hasOnlySVGObjects });
   return !hasOnlySVGObjects;
 };

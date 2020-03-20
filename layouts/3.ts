@@ -83,7 +83,6 @@ export default {
       };
 
       const itemsQty = Math.floor(circleLength / itemsMargin);
-      console.log(circleLength, itemsMargin, itemsQty);
       let itemIndex = 0;
 
       do {
@@ -100,8 +99,6 @@ export default {
 
         itemIndex++;
         itemCirclePosition = (circleLength / itemsQty) * itemIndex;
-
-        console.log(angle, circleLength, itemCirclePosition, "hey5");
       } while (itemIndex < itemsQty);
 
       circleRadius += circlesMargin;

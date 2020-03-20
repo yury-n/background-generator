@@ -192,14 +192,19 @@ const redrawCanvas = throttle(
       window["fabricCanvas"] && window["fabricCanvas"].renderAll();
     };
 
+    const removeAllObjects = () => {
+      window["objects"] &&
+        window["objects"].forEach(object => {
+          window["fabricCanvas"].remove(object);
+        });
+    };
+
     if (
       prevConfigValues &&
       (configValues.objectDistance !== prevConfigValues.objectDistance ||
         configValues.objectSize !== prevConfigValues.objectSize)
     ) {
-      window["objects"].forEach(object => {
-        window["fabricCanvas"].remove(object);
-      });
+      removeAllObjects();
       addLayoutItems();
       renderAll();
       prevConfigValues = configValues;
@@ -228,6 +233,7 @@ const redrawCanvas = throttle(
       loadedFabricObjects[id] = obj;
       loadedFabricObjectsCount++;
       if (loadedFabricObjectsCount === selectedObjects.length) {
+        removeAllObjects();
         addLayoutItems();
         renderAll();
       }

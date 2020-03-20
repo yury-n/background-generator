@@ -35,7 +35,7 @@ const IndexPage = () => {
   return (
     <>
       <Head>
-        <title>background generator</title>
+        <title>background generator com</title>
         <link rel="icon" type="image/png" href="/favicon.png"></link>
         <link
           rel="stylesheet"
@@ -51,6 +51,9 @@ const IndexPage = () => {
               <Row className={s["header-row"]}>
                 <Col span={8} className={s["explore-area"]}>
                   <Button icon="appstore">Explore</Button>
+                  <Button type="link" className={s["license-link"]}>
+                    License
+                  </Button>
                 </Col>
                 <Col span={8} className={s["dimensions-area"]}>
                   <Dimensions />
